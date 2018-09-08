@@ -26,7 +26,7 @@ if(isset($_POST['update'])){
     $user_email=$_POST['email'];
     
     $amount=$_POST['amount'];
-    $display=1;
+    
     
     if(empty($user_email)){
         $errors['email']="Email required!!";
@@ -34,19 +34,24 @@ if(isset($_POST['update'])){
     if(empty($amount)){
         $errors['amount']="Enter valid amount!!";
     }
-    if(count($errors)==0)
-        {
-        $query_st1="select * from users where email='$user_email'";
+    $query_st1="select * from users where email='$user_email'";
     require_once '../db.inc.php';
     $result=  mysql_query($query_st1);
+    if($num_rows=  mysql_num_rows($result)==1){
     while($row=  mysql_fetch_array($result)){
         $withdrawal_amount=$row['withdrawal_amount'];
         $credit=$row['credit'];
         
         $withdrawal_amount=$withdrawal_amount+$amount;
-        $credit=$credit-$amount;
+        $update_credit=$credit-$amount;
         //update user wallet
-        $query_st2="update users set total_withdrawal='$withdrawal_amount',credit='$credit' where email='$user_email'";
+        if($amount>=$credit){
+            $errors['limit']="User don't have enough balance. Only Rs ".$row['credit']."/- Avaiable";
+        }
+    if(count($errors)==0)
+        {
+        
+        $query_st2="update users set total_withdrawal='$withdrawal_amount',credit='$update_credit' where email='$user_email'";
         require_once '../db.inc.php';
         $result_1=  mysql_query($query_st2);
         //update payment
@@ -61,6 +66,7 @@ if(isset($_POST['update'])){
         $error=array();
     $file_name=$_FILES["image_proof"]["name"];
     $file_size=$_FILES["image_proof"]["size"];
+ 
     $file_tmp=$_FILES["image_proof"]["tmp_name"];
     $file_type=$_FILES["image_proof"]["type"];
     $file_ext=  strtolower(end(explode('.',$_FILES["image_proof"]["name"])));
@@ -73,24 +79,29 @@ if(isset($_POST['update'])){
     }
     if(empty($error)==true){
         move_uploaded_file($file_tmp, "payment_proofs/".$file_name);
-        
-        
-    }else{
-        print_r($error);
-    }
         $query_st_his="insert into withdrawal values('$user_email','$amount','$date','$file_name')";
         require_once '../db.inc.php';
         mysql_query($query_st_his);
+        
         $display=1;
         
         
+    }else{
         
-
+    }
+    }
+    else{
+       
     }
         
     
         }
         }
+        else{
+            $errors['account']="Email-id doesn't exist!!";
+        }
+}
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -190,7 +201,66 @@ if(isset($_POST['update'])){
 <div id="menu-reg">
 	<?php require_once './menu.inc.php'; ?>
 </div>
-    <hr/>
+        <style>
+
+.vertical-menu {
+    width: 20%;
+    float: left;
+    min-height: 770px;
+    margin-left: 0px;
+    background-color: #eee;
+    border: 1px solid;
+    font-family: Arial;
+    font-size: 2rem;
+}
+
+.vertical-menu a {
+    background-color: #eee;
+    color: #000;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50;
+    //background-color: #4773C1;
+    color: white;
+    
+    .vertical-menu a.active-red {
+    background-color: tomato;
+    //background-color: #4773C1;
+    color: white;
+    
+    .vertical-content {
+        float: left;
+        padding: 0px 12px;
+        border: 1px solid;
+        width: 80%;
+        border-left: none;
+        min-height: 550px;
+    }
+}
+</style>
+    <div class="vertical-menu">
+    <a href="../../index.php" class="active">Home</a>
+  
+  <a href="activate_users.php">Activate Id</a>
+  <a href="view_users.php">Users</a>
+  <a href="approved.php">Approved Id</a>
+  <a href="check_payment.php">Payment Proof Request</a>
+  <a href="payment_request.php">Withdrawal Request</a>
+  <a href="sendnotification.php">Send Notification</a>
+  <a href="sendpayment.php">Payment Updation</a>
+  <a href="#" class="active-red">LOGOUT</a>
+  
+    <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
+-->
+    </div>
         <div id="content" class="login-form">
             <h3 class="heading-primary">
                 Update Withdrawal !!
@@ -212,21 +282,45 @@ if(isset($_POST['update'])){
 
                     
                     <div class="btn_action">
-                        <input type="submit" name="update" value="Update" class="btn_special" style="background-color: steelblue;" />
+                        <input type="submit" name="update" value="Update" class="btn_special" style="background-color: steelblue;width:15rem;margin-left: 50%;" />
                         <!--<a class="btn_special" href="register.php" style="background-color: springgreen;">Signup</a>-->
-                        <a class="btn_special" href="index.php" style="background-color: #eb2f64;">Home</a>   
                         
                     </div>
 
                 </div>
                 </form>
-            <?php if($display==1){ ?>
-            <h2>Yipee!! User Wallet Updated. </h2>
-            
-            
-            <!--<h3>An email has been sent on <?php echo "$email" ?> to verify your email id!!<a href="login.php"><b>&nbsp;Login</b></a></h3>-->
-            <?php } ?>
+            <?php if(isset($errors['limit'])){?> <br/><span class="error" style="font-size: 14px;"><?php echo $errors['limit'] ?></span>
+                        <?php } ?>
+             <?php if(isset($errors['account'])){?> <br/><span class="error" style="font-size: 14px;"><?php echo $errors['account'] ?></span>
+                        <?php } ?>
+            <?php if($display==1){?>
+            <br/><label><?php echo "User wallet updated!!"?></label><?php } ?>
         </div>
+
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
     
     </body>
 </html>

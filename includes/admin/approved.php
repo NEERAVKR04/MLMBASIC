@@ -216,10 +216,7 @@ echo "<table id='customers'>
 <th>Activation</th>
 <th>Referrals</th>
 <th>Code</th>
-<th>Country</th>
-<th>State</th>
-<th>City</th>
-<th>Pincode</th>
+<th>Payment Status</th>
 <th>Balance</th>
 </tr>";
     $query_users="select * from users";
@@ -227,6 +224,8 @@ echo "<table id='customers'>
     $result_users=  mysql_query($query_users);
     while($row=  mysql_fetch_array($result_users))
 {
+        $payment_approval=$row['payment_approval'];
+        if($payment_approval=='approved'){
 echo "<tr>";
 echo "<td>" . $row['email'] . "</td>";
 echo "<td>" . $row['mobile'] . "</td>";
@@ -234,13 +233,11 @@ echo "<td>" . $row['first_name'] ." ".$row['last_name']. "</td>";
 echo "<td>" . $row['activation'] . "</td>";
 echo "<td>" . $row['referral_count'] . "</td>";
 echo "<td>" . $row['referral_code'] . "</td>";
-echo "<td>" . $row['country'] . "</td>";
-echo "<td>" . $row['state'] . "</td>";
-echo "<td>" . $row['city'] . "</td>";
-echo "<td>" . $row['pincode'] . "</td>";
+echo "<td>" . $row['payment_approval'] . "</td>";
 echo "<td>" . $row['credit'] . "</td>";
 echo "</tr>";
 
+}
 }
 echo "</table>";
 ?>

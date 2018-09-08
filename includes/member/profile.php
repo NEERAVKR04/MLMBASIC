@@ -36,8 +36,9 @@ if(isset($_POST['save']))
     $city=$_POST['city'];
     $pincode=$_POST['pincode'];
     $address=$_POST['address'];
+    $gender=$_POST['gender'];
     
-    $query_update_profile="update users set first_name='$first_name',last_name='$last_name',country='$country',state='$state',city='$city',address='$address',pincode='$pincode' where username='$username'";
+    $query_update_profile="update users set first_name='$first_name',last_name='$last_name',gender='$gender',country='$country',state='$state',city='$city',address='$address',pincode='$pincode' where username='$username'";
     require_once '../db.inc.php';
     mysql_query($query_update_profile);
     
@@ -146,12 +147,13 @@ if(isset($_POST['save']))
 .vertical-menu {
     width: 16%;
     float: left;
-    min-height: 580px;
+    min-height: 820px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
     margin-top: 62px;
     margin-bottom: 0%;
+    
 }
 
 .vertical-menu a {
@@ -181,7 +183,7 @@ if(isset($_POST['save']))
         float: left;
         padding: 0px 12px;
         border: 1px solid;
-        width: 80%;
+        width: 83.7%;
         border-left: none;
         height: 550px;
         background-color: #eee;
@@ -195,7 +197,8 @@ if(isset($_POST['save']))
   <a href="profile.php">PROFILE</a>
   <a href="referral_list.php">REFERRALS</a>
   <a href="wallet.php">WALLET</a>
-   <a href="withdrawal_history.php">WITHDRAWAL</a>
+<a href="withdrawal_history.php">TRANSACTIONS</a>
+   <a href="requestPayment.php">WITHDRAW</a>
    <a href="bankdetails.php">BANK DETAILS</a>
   <a href="sendpayment.php">PAYMENT OPTIONS</a>
   <a href="payment.php">PAYMENT PROOFS</a>
@@ -229,6 +232,9 @@ if(isset($_POST['save']))
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MLMLOGO
+            </span></a>
     </div>
     
 </div>
@@ -241,7 +247,7 @@ if(isset($_POST['save']))
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 79.74%;
+    width: 83.7%;
     height: auto;
 }
 
@@ -263,23 +269,28 @@ if(isset($_POST['save']))
     color: white;
 }
 </style>
-<h2 id="heading">Edit Profile:</h2>
+<h2 id="heading" style="text-align: center">Edit Profile:</h2>
 <form action="profile.php" method="POST">
     <h3>Basic Info:</h3>
     <table id="customers">
         
         <tr>
-            <td><label>First Name:</label>
+            <td><input type="text" disabled style="width:5rem;border:none;background: #fff;" value="First Name:">
             <input type="text" name="first_name" value="<?php echo "$first_name"; ?>"></td>
-            <td><label>Last Name:</label>
+            <td><input type="text" disabled style="width:5rem;border:none;background: #fff;" value="Last Name:">
             <input type="text" name="last_name" value="<?php echo "$last_name"; ?>"></td>
         </tr>
         <tr>
-            <td><label>Email:</label>
-                <input type="email" style="margin-left: 2.3rem;" disabled name="email" value="<?php echo "$email";?>"></td>
-            <td><label>Mobile:</label>
-                <input type="number" style="margin-left: 1.7rem;" disabled name="mobile" value="<?php echo "$mobile";?>"></td>
+            <td><input type="text" disabled style="width:5rem;border:none;background: #eee;" value="Email:">
+                <input type="email" style="" disabled name="email" value="<?php echo "$email";?>"></td>
+            <td><input type="text" disabled style="width:5rem;border:none;background: #eee;" value="Mobile No.:">
+                <input type="number" style="" disabled name="mobile" value="<?php echo "$mobile";?>"></td>
 
+        </tr>
+        <tr>
+            <td><input type="text" disabled style="width:5rem;border:none;background: #fff;" value="Gender:">
+                <input type="text" style="" name="gender" value="<?php echo "$gender";?>"></td>
+            
         </tr>
         </table>
             
@@ -398,8 +409,29 @@ if(isset($_POST['save']))
 </form>
 </div>
 
-<div id="footer">
-   <?php require_once './footer.php'; ?>
-</div>
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
 </body>
 </html>

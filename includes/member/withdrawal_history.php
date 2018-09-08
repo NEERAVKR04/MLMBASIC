@@ -17,6 +17,9 @@ if(mysql_query($result_rfr)>=0)
           $activation_status=$row["activation"];
           $package=$row["package"];
        }
+       if($activation_status!='Y'){
+           header('Location: payment.php');
+       }
    }
 ?>
 <!DOCTYPE html>
@@ -34,10 +37,14 @@ if(mysql_query($result_rfr)>=0)
         <style>
 #header-reg {
         width: 100%;
-	margin: 0px auto;
+	margin: 0;
 	padding: 5px 0px 6px 0px;
-	background-color: #4773C1;
-        min-height: 40px;
+	background-color: #fff;
+        height: 62px;
+        padding: 0;
+        position: relative;
+        border-bottom: 1px solid #e4e5e7;
+        display: block;
 }
 
 #header-reg h1 {
@@ -111,29 +118,29 @@ if(mysql_query($result_rfr)>=0)
 }
 
         </style>
-        <div id="header-reg">
-	<?php require_once './header.php';?>
-</div>
-<div id="menu-reg">
-	<?php require_once './menu.inc.php'; ?>
-</div>
+        
 <style>
 
 .vertical-menu {
-    width: 20%;
+    width: 16%;
     float: left;
-    min-height: 550px;
+    min-height: 580px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
+    margin-top: 62px;
+    margin-bottom: 0%;
+    
+    
 }
 
 .vertical-menu a {
     background-color: #eee;
     color: #000;
     display: block;
-    padding: 12px;
+    padding: 16.5px;
     text-decoration: none;
+    
 }
 
 .vertical-menu a:hover {
@@ -144,6 +151,7 @@ if(mysql_query($result_rfr)>=0)
     background-color: #4CAF50;
     //background-color: #4773C1;
     color: white;
+    height:0.7rem;
     
     .vertical-menu a.active-red {
     background-color: tomato;
@@ -156,33 +164,66 @@ if(mysql_query($result_rfr)>=0)
         border: 1px solid;
         width: 80%;
         border-left: none;
-        min-height: 550px;
+        height: 550px;
+        background-color: #eee;
+       
     }
     
 }
 </style>
 <div class="vertical-menu">
-    <a href="index.php" class="active">Home</a>
-  <a href="article.php">Write Article</a>
-  <a href="sendpayment.php">Payment Options</a>
-  <a href="watch_adds.php">Watch Adds</a>
-  <a href="profile.php">Profile</a>
-  <a href="wallet.php">Wallet</a>
-  <a href="withdrawal_history.php">Withdrawal</a>
-  <a href="referral_list.php">Your Referrals</a>
-  <a href="#">Advertisement Campaign</a>
-  <a href="payment.php">Payment Proofs</a>
+    <a href="index.php" class="active">HOME</a>
+  <a href="profile.php">PROFILE</a>
+  <a href="referral_list.php">REFERRALS</a>
+  <a href="wallet.php">WALLET</a>
+<a href="withdrawal_history.php">TRANSACTIONS</a>
+   <a href="requestPayment.php">WITHDRAW</a>
+   <a href="bankdetails.php">BANK DETAILS</a>
+  <a href="sendpayment.php">PAYMENT OPTIONS</a>
+  <a href="payment.php">PAYMENT PROOFS</a>
   <a href="logout.php" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->
     </div>
+
+<div id="header-reg">
+    <div class="color-line">
+    </div>
+    <div id="logo" class="light-version">
+        <a href="index.php"> <span style="float: left;margin-top:1.35rem;margin-left: -175px;font-weight: bolder;color:black;">
+            DASHBOARD
+        </span>
+        <span style="
+        height: 62px;
+        width: 0;
+        border: 0.5px solid;
+        //display: inline-block;
+        float: left;
+        margin-left:0rem;
+        margin-top: 0;
+        text-align: center;
+        font-size: 20px;
+        color: #000;
+        ">
+            
+        </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
+            LOGOUT
+            </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MLMLOGO
+            </span></a>
+    </div>
+    
+</div>
+
 <div class="vertical-content"> 
     <style>
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 79.7%;
+    width: 83.7%;
 }
 
 #customers td, #customers th {
@@ -205,6 +246,7 @@ if(mysql_query($result_rfr)>=0)
     background-color: #4CAF50;
     color: white;
     
+    
 }
 </style>
 <?php
@@ -213,18 +255,23 @@ echo "<table id='customers'>
 <tr>
 <th>Withdrawal Amount</th>
 <th>Withdrawal Date</th>
+<th>Download Proof</th>
 
 </tr>";
 $query_his="select * from withdrawal where email='$email' ";
     require_once '../db.inc.php';
     $result_his=  mysql_query($query_his);
+    $count_his=0;
+    if($count_his<=20){
     while($row=  mysql_fetch_array($result_his)){
-       
+     $proof_name=$row['proof'];  
     echo "<tr>";
-    echo "<td>"."Withdrawal of "."<b>".$row['amount'] ."$"."</b>" ." has been processed!! ".$row1['last_name']. "</td>";
+    echo "<td>"."Withdrawal of "."<b>"."Rs ".$row['amount'] ."/-"."</b>" ." has been processed!! ".$row1['last_name']. "</td>";
     echo "<td>".$row['date'] . "</td>";
-    
+    echo "<td>"."<a href='includes/admin/payment_proofs/$proof_name' download>"."Download Proof"."</a>"."</td>";
+    $count++;
     echo "</tr>";
+    }
     }
     
 echo "</table>";
@@ -233,8 +280,29 @@ echo "</table>";
 
     
   
-<div id="footer">
-   <?php require_once './footer.php'; ?>
-</div>
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
 </body>
 </html>

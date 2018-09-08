@@ -17,85 +17,63 @@ if(mysql_query($result_rfr)>=0)
           $package=$row["package"];
           $email=$row['email'];
        }
-       if($activation_status!='Y'){
-           header('Location: payment.php');
-       }
+       
    }
 ?>
 
 <?php
-$success=0;
-$status=0;
-$errors=array();
-if(isset($_POST['withdrawal_request'])){
-    $method=$_POST['method'];
+$display=0;
+
+$error=array();
+if(isset($_POST['personal'])){
+    $emailuser=$_POST['emailuser'];
     //$purpose=$_POST['purpose'];
-    $amount=$_POST['amount'];
-    if(empty($amount)){
+    $personalmessage=$_POST['personalmessage'];
+    if(empty($personalmessage)){
         
-        $errors['amount']="Enter valid amount!!";
+        $error['personalmessage']="Enter some message first";
     }
-    if($amount<50){
-        $errors['amount']="You can't withdraw less than Rs 50/-";
-    }
-    if($amount>1000){
-        $errors['amount']="You can't withdraw more than Rs 1000/-";
-    }
-    if($activation_status!='Y'){
-        $errors['activation_status']="You can't request withdrawal as your Id is not active";
-    }
-    $query_credit="select * from users where email='$email'";
-    require_once '../db.inc.php';
-    $result_credit=  mysql_query($query_credit);
-    while ($rowcredit = mysql_fetch_array($result_credit)) {
-        $credit_balance=$rowcredit['credit'];
+    if(empty($emailuser)){
         
-    }
-    if($amount>$credit_balance){
-        $errors['credit_balance']="You don't have sufficient balance. You have just Rs ".$credit_balance."/- in your wallet";
-    }
-
-    $query_check_details="select * from paymentwithdraw where email='$email'";
-    require_once '../db.inc.php';
-    $result_det=  mysql_query($query_check_details);
-    while ($row1 = mysql_fetch_array($result_det)) {
-        $upi_fetch=$row1['upi'];
-        $paytm_fetch=$row1['paytm'];
-        $paypal_fetch=$row1['paypal'];
-        $request_fetch=$row1['request'];
-    }
-    if($method=='UPI' && $upi_fetch==''){
-        $errors['upi']="First enter your upi address in bank details then request withdrawal via UPI";
-    }
-    if($method=='PayTM' && $paytm_fetch==''){
-        $errors['paytm']="We don't have your paytm number. Enter paytm in bank details first!!";
-    }
-    if($method=='PayPal' && $paypal_fetch==''){
-        $errors['paypal']="We don't have your paypal id. Enter paypal id in bank details first!!";
-    }
-    if($request_fetch=='pending'){
-        $errors['pending']="You have already requested for withdrawal previously. Wait for 24-48 hours for approval!!";
-
+        $error['emailuser']="Enter user email";
     }
     
     if(count($errors)==0){
-        $query_st="select * from paymentwithdraw where email='$email'";
-        require_once '../db.inc.php';
-    $result=  mysql_query($query_st);
-   if(mysql_num_rows($result)!=1){
-       $errors['message']="First, complete bank details then request for withdraw!!";
-   }
-   
-   else{
-       $request=$result['request'];
-       if($request!='pending'){
-       $query_update="update paymentwithdraw set amount='$amount',request='pending',method='$method' where email='$email'";
+        date_default_timezone_set('Asia/Kolkata');
+        $date=  date('Y-m-d H:i:s');
+        $query_update="insert into information values ('$emailuser','$personalmessage','sent','$date')";
        require_once '../db.inc.php';
        mysql_query($query_update);
-       $success=1;
-       }
+       $display=1;
+        
+    }
+}
+?>
+<?php
+
+$status=0;
+$errors=array();
+if(isset($_POST['messageall'])){
+    
+    //$purpose=$_POST['purpose'];
+    $message=$_POST['message'];
+    $title=$_POST['title'];
+    if(empty($message)){
+        
+        $errors['message']="Enter some message first";
+    }
+    if(empty($title)){
+        $errors['title']="Enter some heading/Title";
+    }
+    
+    if(count($errors)==0){
+        date_default_timezone_set('Asia/Kolkata');
+        $date=  date('Y-m-d H:i:s');
+        $query_update="insert into notifications values ('$title','$message','sent','$date')";
+       require_once '../db.inc.php';
+       mysql_query($query_update);
+       $status=1;
        
-   }
         
     }
 }
@@ -104,7 +82,7 @@ if(isset($_POST['withdrawal_request'])){
 <html>
     <head>
         <title>
-           Withdrawal Request
+           Send Notifications
         </title>
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -202,7 +180,7 @@ if(isset($_POST['withdrawal_request'])){
 .vertical-menu {
     width: 16%;
     float: left;
-    min-height: 580px;
+    min-height: 1020px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
@@ -248,16 +226,16 @@ if(isset($_POST['withdrawal_request'])){
 }
 </style>
 <div class="vertical-menu">
-    <a href="index.php" class="active">HOME</a>
-  <a href="profile.php">PROFILE</a>
-  <a href="referral_list.php">REFERRALS</a>
-  <a href="wallet.php">WALLET</a>
-<a href="withdrawal_history.php">TRANSACTIONS</a>
-   <a href="requestPayment.php">WITHDRAW</a>
-   <a href="bankdetails.php">BANK DETAILS</a>
-  <a href="sendpayment.php">PAYMENT OPTIONS</a>
-  <a href="payment.php">PAYMENT PROOFS</a>
-  <a href="logout.php" class="active-red">LOGOUT</a>
+    <a href="../../index.php" class="active">Home</a>
+  
+  <a href="activate_users.php">Activate Id</a>
+  <a href="view_users.php">Users</a>
+  <a href="approved.php">Approved Id</a>
+  <a href="check_payment.php">Payment Proof Request</a>
+  <a href="payment_request.php">Withdrawal Request</a>
+  <a href="sendnotification.php">Send Notification</a>
+  <a href="sendpayment.php">Payment Updation</a>
+  <a href="#" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->
@@ -286,9 +264,6 @@ if(isset($_POST['withdrawal_request'])){
         </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
-            </span></a>
-        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
             </span></a>
     </div>
     
@@ -380,7 +355,7 @@ if(isset($_POST['withdrawal_request'])){
         display: inline-block;
         float: left;
         margin-left: 8%;
-        margin-top: 5rem;
+        margin-top: 2rem;
         text-align: center;
         font-size: 20px;
         color: #4773C1;
@@ -426,48 +401,59 @@ if(isset($_POST['withdrawal_request'])){
 
 <div class="square">
     
-    <form class="login-forms" action="requestPayment.php" method="POST">
+    <form class="login-forms" action="sendnotification.php" method="POST">
         <h2>
-            Request Payments/Withdrawal
+            Send Personal Notifications!!
         </h2>
         <table id="history">
-                <input readonly type="text" class="login-labels" value="Method:">
-                
-                <select class="login-fields" type="text" name="method" value="">
-                    <option selected>Bank Transfer</option>
-                    <option>UPI</option>
-                    <option>PayTM</option>
-                    <option>PayPal</option>
-                </select>
+                <input readonly type="text" class="login-labels" value="Enter Email:">
+                <input class="login-fields" type="text" placeholder="Enter Email" name="emailuser" value="">
+                <?php if(isset($error['emailuser'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $error['emailuser'] ?></label>
+                        <?php } ?>
+                    
                 <br/>
-                <input readonly type="text" class="login-labels" value="Amount:">
-                <input class="login-fields" type="text" placeholder="Enter withdrawal amount" name="amount" value="">
+                <input readonly type="text" class="login-labels" value="Your Message:">
+                <input class="login-fields" type="text" placeholder="Type Your Message" name="personalmessage" value="">
+                <?php if(isset($error['personalmessage'])){?> <br/><span style="color: red;font-size: 1rem;"><?php echo $error['personalmessage'] ?></span>
+                        <?php } ?>
                 <br/>
                 <?php if(isset($errors['amount'])){?> <br/><span class="error" style="color: red;font-size: 1.45rem;"><?php echo $errors['amount'] ?></span>
                         <?php } ?>
                 <br/>
-                <input type="submit" name="withdrawal_request" value="Request" class="btn_special" style="background-color: steelblue;margin-bottom: 5px;" />
+                <input type="submit" name="personal" value="Send" class="btn_special" style="background-color: steelblue;margin-bottom: 5px;" />
                 <input type="submit" name="cancel" value="Cancel" class="btn_special" style="background-color: tomato;margin-bottom: 5px;" />
                            <?php if(isset($errors['payment'])){?> <br/><span class="error"><?php echo $errors['payment'] ?></span>
                         <?php } ?>
         </table>
-        <?php if(isset($errors['message'])){?> <br/><span style="color: red;font-size: 1rem;"><?php echo $errors['message'] ?></span>
+        
+                    
+                   
+</div>
+<div class="square">
+    
+    <form class="login-forms" action="sendnotification.php" method="POST">
+        <h2>
+            Send Notification To All!!
+        </h2>
+        <table id="history">
+                <input readonly type="text" class="login-labels" value="Title:">
+                <input class="login-fields" type="text" placeholder="Enter message title" name="title" value="">
+                <?php if(isset($errors['title'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['title'] ?></label>
                         <?php } ?>
-                    <?php if(isset($errors['activation_status'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['activation_status'] ?></label>
+                <br/>
+                <input readonly type="text" class="login-labels" value="Message:">
+                <input class="login-fields" type="text" placeholder="Enter message here" name="message" value=""><?php if(isset($errors['message'])){?> <br/><label style="color: red;font-size: 1rem;margin-left:1rem;"><?php echo $errors['message'] ?></label>
                         <?php } ?>
-                    <?php if(isset($errors['upi'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['upi'] ?></label>
-                        <?php } ?>
-                    <?php if(isset($errors['paytm'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['paytm'] ?></label>
-                        <?php } ?>
-                    <?php if(isset($errors['paypal'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['paypal'] ?></label>
-                        <?php } ?>
-                    <?php if(isset($errors['pending'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['pending'] ?></label>
-                        <?php } ?>
-                    <?php if(isset($errors['credit_balance'])){?> <br/><label style="color: red;font-size: 1rem;margin-left: auto;margin-right: auto;"><?php echo $errors['credit_balance'] ?></label>
-                        <?php } ?>
-                    <?php if($success==1){ ?>
-                    <?php echo "<br/>"."Withdrawal request submitted!!";?>
-                    <?php } ?>
+                <br/>
+                <br/>
+                <input type="submit" name="messageall" value="Send" class="btn_special" style="background-color: steelblue;margin-bottom: 5px;" />
+                <input type="submit" name="cancel" value="Cancel" class="btn_special" style="background-color: tomato;margin-bottom: 5px;" />
+                           
+        </table>
+                    
+                    
+                    
+                    
         </form>
 </div>
 <div class="square" style="margin-top: 1px;">
@@ -500,6 +486,30 @@ But, sometimes it can take more than 48 hours. So, be patient.
     text-align: center">why <b>join us?</b></h2>
     </div>
 
+
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
 
     
         

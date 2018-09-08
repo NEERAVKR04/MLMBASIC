@@ -178,12 +178,13 @@ if(isset($_POST['submit']))
 .vertical-menu {
     width: 16%;
     float: left;
-    min-height: 580px;
+    min-height: 700px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
     margin-top: 62px;
     margin-bottom: 0%;
+    
 }
 
 .vertical-menu a {
@@ -227,7 +228,8 @@ if(isset($_POST['submit']))
   <a href="profile.php">PROFILE</a>
   <a href="referral_list.php">REFERRALS</a>
   <a href="wallet.php">WALLET</a>
-   <a href="withdrawal_history.php">WITHDRAWAL</a>
+   <a href="withdrawal_history.php">TRANSACTIONS</a>
+   <a href="requestPayment.php">WITHDRAW</a>
    <a href="bankdetails.php">BANK DETAILS</a>
   <a href="sendpayment.php">PAYMENT OPTIONS</a>
   <a href="payment.php">PAYMENT PROOFS</a>
@@ -261,21 +263,44 @@ if(isset($_POST['submit']))
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MLMLOGO
+            </span></a>
     </div>
     
 </div>
+<style>
+    .square{
+        height: auto;
+        width: 70%;
+        display: grid;
+        border: 1px solid #e4e5e7;
+        display: inline-block;
+        float: left;
+        margin-left: 8%;
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 20px;
+        color: #4773C1;
+        background-color: #eee;
+        margin-bottom: 2%;
+        border-radius: 10px;
+        
+        
+    }
+</style>
 
 <style>
     .login-form {
   color: #333;
-  background-color: #fff;
+  
   border-radius: 5px;
   
   width: 30rem;
   
   height:10rem;
   text-align: center;
-  margin-top: 2rem;
+  
   padding: 2rem;
 }
 
@@ -306,7 +331,7 @@ if(isset($_POST['submit']))
   font-size: 1rem;
   margin-right: 1rem;
   width: 15rem;
-  margin-left: 18rem;
+  margin-left: 12rem;
 }
 
 .btn_action {
@@ -318,7 +343,7 @@ if(isset($_POST['submit']))
   color: #fff;
   font-size: 1rem;
   padding: .5rem 1rem;
-  margin-left: 1rem;
+  margin-left: 0rem;
   margin-right: 1rem;
   margin-top: 1rem;
   
@@ -337,6 +362,7 @@ if(isset($_POST['submit']))
 }
 
 </style>
+<div class="square">
 <div id="content" class="login-form">
             <h3 class="heading-primary">
                 Bank & Payment Details !!
@@ -363,7 +389,7 @@ if(isset($_POST['submit']))
                     <div class="input_label">Paypal:</div>
                     <input type="text" name="paypal" class="input_field" placeholder="Paypal email" value="<?php echo "$paypal"; ?>" />
 
-                    <div class="btn_action" style="margin-left:22rem;">
+                    <div class="btn_action" style="margin-left:17rem;">
                         <input type="submit" name="submit" value="Save" class="btn_special" style="background-color: steelblue;" />
                         <a class="btn_special" href="index.php" style="background-color: springgreen;">Cancel</a>
                         <a class="btn_special" href="../../index.php" style="background-color: #eb2f64;">Home</a>   
@@ -383,10 +409,31 @@ if(isset($_POST['submit']))
             
         </div>
 
-
-
-<div id="footer">
-   <?php require_once './footer.php'; ?>
 </div>
+
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
 </body>
 </html>

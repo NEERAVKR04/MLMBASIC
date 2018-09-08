@@ -3,13 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/project2/register.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/notification.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/change_password.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/bankdetails.php</file>
             <file>file:/C:/xampp/htdocs/project2/loginuser.php</file>
-            <file>file:/C:/xampp/htdocs/project2/styles/default.css</file>
-            <file>file:/C:/xampp/htdocs/project2/includes/guest/header.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/payment.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/profile.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/sendpayment.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/requestPayment.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/referral_list.php</file>
             <file>file:/C:/xampp/htdocs/project2/includes/member/index.php</file>
-            <file>file:/C:/xampp/htdocs/project2/css/style.css</file>
-            <file>file:/C:/xampp/htdocs/project2/index.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/withdrawal_history.php</file>
+            <file>file:/C:/xampp/htdocs/project2/includes/member/wallet.php</file>
         </group>
     </open-files>
 </project-private>

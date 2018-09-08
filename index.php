@@ -131,9 +131,9 @@ $query_his="select * from withdrawal ORDER BY date DESC LIMIT 0,10";
            $email=$row['email'];
            
     echo "<tr>";
-    echo "<td>"."Withdrawal of "."<b>".$row['amount'] ."$"."</b>" ." has been processed to ".$row['email']. "</td>";
+    echo "<td>"."Withdrawal of "."<b>"."Rs ".$row['amount'] ."/-"."</b>" ." has been processed to ".$row['email']. "</td>";
     echo "<td>".$row['date'] . "</td>";
-    echo "<td>"."<a href='payment_proof/$proof_name' download>"."Payment Proof"."</a>"."</td>";
+    echo "<td>"."<a href='includes/admin/payment_proofs/$proof_name' download>"."Payment Proof"."</a>"."</td>";
     echo "</tr>";
     $count++;
        }

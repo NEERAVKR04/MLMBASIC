@@ -143,8 +143,9 @@ if(isset($_GET['submit'])){
             $referral_code=$str_referral.$digit;
             
             $password=  md5($password);
-            echo "$referral_count";
-            $query= "insert into users values('$username','$email','$first_name','$last_name','$password','$mobile','$package','$refer_code','$referee_name','$referral_code','$verification','Y','N','member','0','0','0','','','','','','','','','','','')";
+            date_default_timezone_set('Asia/Kolkata');
+            $joined_date=  date('Y-m-d H:i:s');
+            $query= "insert into users values('$username','$email','$first_name','$last_name','$password','$mobile','$package','$refer_code','$referee_name','$referral_code','$verification','Y','N','member','0','0','0','','','','','','','','','','','','$joined_date')";
             require_once './includes/db.inc.php';
             mysql_query($query);
             $template=2;     

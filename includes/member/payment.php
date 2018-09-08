@@ -84,6 +84,49 @@ $errors=array();
 if(isset($_POST['upload'])){
     $tid=$_POST['tid'];
     $method=$_POST['method'];
+    
+    
+//    $query_bank="select * from paymentwithdraw where email='$useremail'";
+//    require_once '../db.inc.php';
+//    $result=  mysql_query($query_bank);
+//    if($num_bank=  mysql_num_rows($result)==1){
+//    while($row_bank=  mysql_fetch_array($result)){
+//        $bank_name=$row_bank['bank_name'];
+//        $bank_type=$row_bank['bank_type'];
+//        $account_no=$row_bank['account_no'];
+//        $ifsc=$row_bank['ifsc'];
+//        $upi=$row_bank['upi'];
+//        $paytm=$row_bank['paytm'];
+//        $paypal=$row_bank['paypal'];
+//        $request=$row_bank['request'];
+//        $amount=$row_bank['amount'];
+//        
+//    }
+//    }
+//    else{
+//        $errors['bank']="Fill your bank details first. Then submit withdrawal request!!";
+//    }
+//    if($bank_name=''&& $bank_type=''&& $account_no==''&& $ifsc==''){
+//        $errors['bank_det']="You haven't submitted your bank details completely. Fix it!!";
+//    }
+//    if($method=='UPI'){
+//        if($upi==''){
+//        $errors['upi']="You haven't submitted your UPI address to us. Fill it under bank details";
+//    
+//        }
+//        }
+//    if($method=='PayTM'){
+//        if($paytm==''){
+//        $errors['paytm']="You haven't submitted your Paytm number to us. Fill it under bank details";
+//    
+//        }
+//        }
+//    if($method=='PayPal'){
+//        if($paypal==''){
+//        $errors['paypal']="You haven't submitted your paypal id to us. Fill it under bank details";
+//    
+//        }
+//        }
 if($payment_approval=='pending'){
     $errors['payment']="You have already submitted a request. Please wait for 24-48 hrs.";
 }
@@ -115,7 +158,7 @@ if($tid==''){
     if(count($errors)==0)
     {
         $image_name=$username.$file_name;
-        echo "$image_name";
+        
     $query_payment="update users set image_name='$image_name',tid='$tid',payment_approval='pending',payment_method='$method',date='$date' where email='$useremail'";
     require_once '../db.inc.php';
     mysql_query($query_payment);
@@ -233,12 +276,13 @@ if($tid==''){
 .vertical-menu {
     width: 16%;
     float: left;
-    min-height: 580px;
+    min-height: 1010px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
     margin-top: 62px;
     margin-bottom: 0%;
+    
 }
 
 .vertical-menu a {
@@ -282,7 +326,8 @@ if($tid==''){
   <a href="profile.php">PROFILE</a>
   <a href="referral_list.php">REFERRALS</a>
   <a href="wallet.php">WALLET</a>
-   <a href="withdrawal_history.php">WITHDRAWAL</a>
+   <a href="withdrawal_history.php">TRANSACTIONS</a>
+   <a href="requestPayment.php">WITHDRAW</a> 
    <a href="bankdetails.php">BANK DETAILS</a>
   <a href="sendpayment.php">PAYMENT OPTIONS</a>
   <a href="payment.php">PAYMENT PROOFS</a>
@@ -315,6 +360,9 @@ if($tid==''){
         </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
+            </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MLMLOGO
             </span></a>
     </div>
     
@@ -406,11 +454,29 @@ if($tid==''){
         display: inline-block;
         float: left;
         margin-left: 8%;
-        margin-top: 5rem;
+        margin-top: 2rem;
         text-align: center;
         font-size: 20px;
         color: #4773C1;
         background-color: #eee;
+        margin-bottom: 2%;
+        border-radius: 10px;
+        
+        
+    }
+    .square2{
+        height: auto;
+        width: 45%;
+        display: grid;
+        border: 1px solid #e4e5e7;
+        display: inline-block;
+        float: left;
+        margin-left: 2%;
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 20px;
+        color: #4773C1;
+        background-color: #fff;
         margin-bottom: 2%;
         border-radius: 10px;
         
@@ -422,7 +488,7 @@ if($tid==''){
         min-height: 300px;
         font-weight: bold;
         font-size: 18px;
-        margin-top: 2rem;
+        margin-top: 1rem;
         text-align: center;
         color: black;
         
@@ -440,8 +506,8 @@ if($tid==''){
        
     }
     .login-labels{
-        margin-top: 2rem;
-        width: 10rem;
+        margin-top: 1rem;
+        width: 12rem;
         border:none;
         background: none;
         text-align: center;
@@ -450,11 +516,35 @@ if($tid==''){
     }
 </style>
 
+
+<div class="square">
+<table id="history">
+            <div class="square2">
+            <h3 style="color: black;">Bank Info:</h3>
+            <input readonly type="text" class="login-labels" value="Account No.: " style="text-align: right;"><input readonly type="text" class="login-labels" value="919690531162" style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <input readonly type="text" class="login-labels" value="Bank Name: " style="text-align: right;" ><input readonly type="text" class="login-labels" value="PayTM Payments Bank"  style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <input readonly type="text" class="login-labels" value="Account Name: " style="text-align: right;"><input readonly type="text" class="login-labels" value="Neerav Kumar"  style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <input readonly type="text" class="login-labels" value="Account Type: " style="text-align: right;"><input readonly type="text" class="login-labels" value="Savings"  style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <input readonly type="text" class="login-labels" value="IFSC Code: " style="text-align: right;"><input readonly type="text" class="login-labels" value="PYTM0123456" style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <label style="font-size:14px;color: black;">Note: </label><label style="color:red;font-size:12px;">Pay only to these payment details. No responsibility shall be beared if payment sent to wrong informations!!</label><br/>
+
+            </div>
+            <div class="square2">
+            <h3 style="color: black;">UPI, PayTM, Paypal Info:</h3>
+            <input readonly type="text" class="login-labels" value="UPI Address: " style="text-align: right;"><input readonly type="text" class="login-labels" value="919690531162" style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <input readonly type="text" class="login-labels" value="PayTM No.: " style="text-align: right;" ><input readonly type="text" class="login-labels" value="PayTM Payments Bank"  style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <input readonly type="text" class="login-labels" value="Paypal Id: " style="text-align: right;"><input readonly type="text" class="login-labels" value="Neerav Kumar"  style="font-weight: lighter;font-size: 16px;text-align: left;"><br/>
+            <label style="font-size:14px;color: black;">Note: </label><label style="color:red;font-size:12px;">Pay only to these payment details. No responsibility shall be beared if payment sent to wrong informations!!</label><br/>
+            <label style="font-size:14px;color: black;text-align: left;">Important: </label><label style="color:red;font-size:12px;">Pay your activation charge of Rs 99/- and upload payment details & proofs in below form to activate your account.</label><br/>
+
+            </div>
+</table></div>
+
 <div class="square">
     
     <form class="login-forms" action="payment.php" method="POST" enctype="multipart/form-data">
         <h2>
-            Payment Details
+            Payment Submission Form
         </h2>
         <table id="history">
             <input readonly type="text" class="login-labels"value="Email:">
@@ -464,14 +554,14 @@ if($tid==''){
 
                 <br/>
                 <input readonly type="text" class="login-labels" value="Purpose:">
-                <input class="login-fields" type="text" readonly name="email" value="Activation Charge">
+                <input class="login-fields" type="text" readonly name="purpose" value="Activation Charge">
                 <br/>
                 <input readonly type="text" class="login-labels" value="Amount:">
-                <input class="login-fields" type="text" readonly name="email" value="Rs 99/-">
+                <input class="login-fields" type="text" readonly name="amount" value="Rs 99/-">
                 <br/>
                 <input readonly type="text" class="login-labels" value="Transaction Id:">
                 <input class="login-fields" type="text" name="tid" value="">
-                <?php if(isset($errors['tid'])){?> <br/><span class="error"><?php echo $errors['tid'] ?></span>
+                <?php if(isset($errors['tid'])){?> <br/><span class="error" style="margin-left:8rem;margin-top: 1px;font-size: 12px;"><?php echo $errors['tid'] ?></span>
                         <?php } ?>
                 <br/>
                 <input readonly type="text" class="login-labels" value="Method:">
@@ -487,13 +577,21 @@ if($tid==''){
                 <input readonly type="text" class="login-labels" value="Upload Proof:">
 
                 <input type="file" name="paymentproof" value="Upload Proof">
-    <?php if(isset($errors['extension'])){?> <br/><span class="error"><?php echo $errors['extension'] ?></span>
+    <?php if(isset($errors['extension'])){?> <br/><span class="error" style="font-size: 12px;"><?php echo $errors['extension'] ?></span>
                         <?php } ?>
 
                 <br/>
                 <input type="submit" name="upload" value="Save" class="btn_special" style="background-color: steelblue;margin-bottom: 5px;" />
                 <input type="submit" name="cancel" value="Cancel" class="btn_special" style="background-color: tomato;margin-bottom: 5px;" />
-                           <?php if(isset($errors['payment'])){?> <br/><span class="error"><?php echo $errors['payment'] ?></span>
+                           <?php if(isset($errors['payment'])){?> <br/><span class="error" style="font-size: 12px;"><?php echo $errors['payment'] ?></span>
+                        <?php } ?>
+                           <?php if(isset($errors['bank'])){?> <br/><span class="error" style="font-size: 12px;"><?php echo $errors['bank'] ?></span>
+                        <?php } ?>
+                           <?php if(isset($errors['upi'])){?> <br/><span class="error" style="font-size: 12px;"><?php echo $errors['upi'] ?></span>
+                        <?php } ?>
+                           <?php if(isset($errors['paytm'])){?> <br/><span class="error" style="font-size: 12px;"><?php echo $errors['paytm'] ?></span>
+                        <?php } ?>
+                           <?php if(isset($errors['paypal'])){?> <br/><span class="error" style="font-size: 12px;"><?php echo $errors['paypal'] ?></span>
                         <?php } ?>
 
 
@@ -502,16 +600,30 @@ if($tid==''){
         </form>
 </div>
 
-   
-            
-
-
-
-
     
-  
-<div id="footer">
-   <?php require_once './footer.php'; ?>
-</div>
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
 </body>
 </html>

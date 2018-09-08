@@ -17,85 +17,45 @@ if(mysql_query($result_rfr)>=0)
    }
 ?>
 <?php
+$error=array();
 $user_email=$_POST['email'];
 if(isset($_POST['activate']))
 {
-$query_update_act="update users set activation='Y',payment_approval='Approved' where email='$user_email'";
-require_once '../db.inc.php';
-mysql_query($query_update_act);
-//1st level
-$query_referee1="select * from users where email='$user_email'";
-require_once '../db.inc.php';
-$result_referee1=  mysql_query($query_referee1);
-while($row1=  mysql_fetch_array($result_referee1))
-{
-    $referee_name=$row1['referee_name'];
-    $refer_code=$row1['refer_code'];
-    $package=$row1['package'];
-    $referee1_email=$row1['email'];
-    if($refer_code!=''){
-    if($package=='5$'){
-        $query_select_credit="select * from users where referral_code='$refer_code'";
+  $query_act="select * from users where email='$user_email'";
+  require_once '../db.inc.php';
+  $res_act=  mysql_query($query_act);
+  while($row_act=  mysql_fetch_array($res_act)){
+      $activation_status=$row_act['activation'];
+      $referee_name=$row_act['referee_name'];
+      $refer1_code=$row_act['refer_code'];
+      $package=$row1_act['package'];
+      $referee1_email=$row_act['email'];
+      
+      $activate='Y';
+  $query_activate="update users set activation='$activate',payment_approval='approved' where email='$user_email'";
+  require_once '../db.inc.php';
+  mysql_query($query_activate);
+  }
+  
+    if($activation_status!='Y'){
+    //1st level
+    if($refer1_code!=''){
+    
+        $query_select_credit="select * from users where referral_code='$refer1_code'";
         require_once '../db.inc.php';
         $result_credit=  mysql_query($query_select_credit);
         while($row_credit_check=  mysql_fetch_array($result_credit))
         {   $referee2_code=$row_credit_check['refer_code'];
             $credit_balance=$row_credit_check['credit'];
-            $credit_balance=$credit_balance+2;
-            $query_credit_update="update users set credit='$credit_balance' where referral_code='$refer_code'";
-            mysql_query($query_credit_update);
-        }
-    }
-    if($package=='12$'){
-        $query_select_credit="select * from users where referral_code='$refer_code'";
-        require_once '../db.inc.php';
-        $result_credit=  mysql_query($query_select_credit);
-        while($row_credit_check=  mysql_fetch_array($result_credit))
-        {   $referee2_code=$row_credit_check['refer_code'];
-            $credit_balance=$row_credit_check['credit'];
-            $credit_balance=$credit_balance+4.80;
-            $query_credit_update="update users set credit='$credit_balance' where referral_code='$refer_code'";
-            mysql_query($query_credit_update);
-        }
-    }
-    if($package=='21$'){
-        $query_select_credit="select * from users where referral_code='$refer_code'";
-        require_once '../db.inc.php';
-        $result_credit=  mysql_query($query_select_credit);
-        while($row_credit_check=  mysql_fetch_array($result_credit))
-        {   $referee2_code=$row_credit_check['refer_code'];
-            $credit_balance=$row_credit_check['credit'];
-            $credit_balance=$credit_balance+8.40;
-            $query_credit_update="update users set credit='$credit_balance' where referral_code='$refer_code'";
-            mysql_query($query_credit_update);
-        }
-    }
-    if($package=='50$'){
-        $query_select_credit="select * from users where referral_code='$refer_code'";
-        require_once '../db.inc.php';
-        $result_credit=  mysql_query($query_select_credit);
-        while($row_credit_check=  mysql_fetch_array($result_credit))
-        {   $referee2_code=$row_credit_check['refer_code'];
-            $credit_balance=$row_credit_check['credit'];
+            echo "$credit_balance";
             $credit_balance=$credit_balance+20;
-            $query_credit_update="update users set credit='$credit_balance' where referral_code='$refer_code'";
+            echo "$credit_balance";
+            $query_credit_update="update users set credit='$credit_balance' where referral_code='$refer1_code'";
             mysql_query($query_credit_update);
         }
     }
-    if($package=='99$'){
-        $query_select_credit="select * from users where referral_code='$refer_code'";
-        require_once '../db.inc.php';
-        $result_credit=  mysql_query($query_select_credit);
-        while($row_credit_check=  mysql_fetch_array($result_credit))
-        {   $referee2_code=$row_credit_check['refer_code'];
-            $credit_balance=$row_credit_check['credit'];
-            $credit_balance=$credit_balance+39;
-            $query_credit_update="update users set credit='$credit_balance' where referral_code='$refer_code'";
-            mysql_query($query_credit_update);
-        }
-    }
-    }
-}
+    
+
 //2nd Level
 if($referee2_code!='')
 {
@@ -105,36 +65,17 @@ $result_referee2=  mysql_query($query_referee2);
 while ($row2 = mysql_fetch_array($result_referee2)) {
     $referee3_code=$row2['refer_code'];
     $credit2=$row2['credit'];
-    if($package=='5$'){
-        $credit2=$credit2+0.70;
+    
+        $credit2=$credit2+15;
         $query_credit_update2="update users set credit='$credit2' where referral_code='$referee2_code'";
             mysql_query($query_credit_update2);
-    }
-    if($package=='12$'){
-        $credit2=$credit2+2.20;
-        $query_credit_update2="update users set credit='$credit2' where referral_code='$referee2_code'";
-            mysql_query($query_credit_update2);
-    }
-    if($package=='21$'){
-        $credit2=$credit2+4.20;
-        $query_credit_update2="update users set credit='$credit2' where referral_code='$referee2_code'";
-            mysql_query($query_credit_update2);
-    }
-    if($package=='50$'){
-        $credit2=$credit2+10;
-        $query_credit_update2="update users set credit='$credit2' where referral_code='$referee2_code'";
-            mysql_query($query_credit_update2);
-    }
-    if($package=='99$'){
-        $credit2=$credit2+19;
-        $query_credit_update2="update users set credit='$credit2' where referral_code='$referee2_code'";
-            mysql_query($query_credit_update2);
-    }
+    
     
     
     
 }
 }
+//level 3
 if($referee3_code!=''){
 $query_referee3="select * from users where referral_code='$referee3_code'";
 include_once '../db.inc.php';
@@ -142,36 +83,17 @@ $result_referee3=  mysql_query($query_referee3);
 while ($row3 = mysql_fetch_array($result_referee3)) {
     $referee4_code=$row3['refer_code'];
     $credit3=$row3['credit'];
-    if($package=='5$'){
-        $credit3=$credit3+0.50;
+    
+        $credit3=$credit3+12;
         $query_credit_update3="update users set credit='$credit3' where referral_code='$referee3_code'";
             mysql_query($query_credit_update3);
-    }
-    if($package=='12$'){
-        $credit3=$credit3+1;
-        $query_credit_update3="update users set credit='$credit3' where referral_code='$referee3_code'";
-            mysql_query($query_credit_update3);
-    }
-    if($package=='21$'){
-        $credit3=$credit2+2;
-        $query_credit_update3="update users set credit='$credit3' where referral_code='$referee3_code'";
-            mysql_query($query_credit_update3);
-    }
-    if($package=='50$'){
-        $credit3=$credit3+5;
-        $query_credit_update3="update users set credit='$credit3' where referral_code='$referee3_code'";
-            mysql_query($query_credit_update3);
-    }
-    if($package=='99$'){
-        $credit3=$credit3+9;
-        $query_credit_update3="update users set credit='$credit3' where referral_code='$referee3_code'";
-            mysql_query($query_credit_update3);
-    }
+    
     
     
     
 }
 }
+//level 4
 if($referee4_code!=''){
 $query_referee4="select * from users where referral_code='$referee4_code'";
 include_once '../db.inc.php';
@@ -179,31 +101,12 @@ $result_referee4=  mysql_query($query_referee4);
 while ($row4 = mysql_fetch_array($result_referee4)) {
     $referee5_code=$row4['refer_code'];
     $credit4=$row4['credit'];
-    if($package=='5$'){
-        $credit4=$credit4+0.20;
+    
+        $credit4=$credit4+10;
         $query_credit_update4="update users set credit='$credit4' where referral_code='$referee4_code'";
             mysql_query($query_credit_update4);
-    }
-    if($package=='12$'){
-        $credit4=$credit4+0.80;
-        $query_credit_update4="update users set credit='$credit4' where referral_code='$referee4_code'";
-            mysql_query($query_credit_update4);
-    }
-    if($package=='21$'){
-        $credit4=$credit4+1;
-        $query_credit_update4="update users set credit='$credit4' where referral_code='$referee4_code'";
-            mysql_query($query_credit_update4);
-    }
-    if($package=='50$'){
-        $credit4=$credit4+2.50;
-        $query_credit_update4="update users set credit='$credit4' where referral_code='$referee4_code'";
-            mysql_query($query_credit_update4);
-    }
-    if($package=='99$'){
-        $credit4=$credit4+6;
-        $query_credit_update4="update users set credit='$credit4' where referral_code='$referee4_code'";
-            mysql_query($query_credit_update4);
-    } 
+    
+    
 }
 }
 //level 5
@@ -214,31 +117,12 @@ $result_referee5=  mysql_query($query_referee5);
 while ($row5 = mysql_fetch_array($result_referee5)) {
     $referee6_code=$row5['refer_code'];
     $credit5=$row5['credit'];
-    if($package=='5$'){
-        $credit5=$credit5+0.10;
+    
+        $credit5=$credit5+7;
         $query_credit_update5="update users set credit='$credit5' where referral_code='$referee5_code'";
             mysql_query($query_credit_update5);
-    }
-    if($package=='12$'){
-        $credit5=$credit5+0.20;
-        $query_credit_update5="update users set credit='$credit5' where referral_code='$referee5_code'";
-            mysql_query($query_credit_update5);
-    }
-    if($package=='21$'){
-        $credit5=$credit5+030;
-        $query_credit_update5="update users set credit='$credit5' where referral_code='$referee5_code'";
-            mysql_query($query_credit_update5);
-    }
-    if($package=='50$'){
-        $credit5=$credit5+0.40;
-        $query_credit_update5="update users set credit='$credit5' where referral_code='$referee5_code'";
-            mysql_query($query_credit_update5);
-    }
-    if($package=='99$'){
-        $credit5=$credit5+1;
-        $query_credit_update5="update users set credit='$credit5' where referral_code='$referee5_code'";
-            mysql_query($query_credit_update5);
-    }    
+    
+    
 }
 }
 //level 6
@@ -249,31 +133,12 @@ $result_referee6=  mysql_query($query_referee6);
 while ($row6 = mysql_fetch_array($result_referee6)) {
     $referee7_code=$row6['refer_code'];
     $credit6=$row6['credit'];
-    if($package=='5$'){
-        $credit6=$credit6+0.10;
+    
+        $credit6=$credit6+5;
         $query_credit_update6="update users set credit='$credit6' where referral_code='$referee6_code'";
             mysql_query($query_credit_update6);
-    }
-    if($package=='12$'){
-        $credit6=$credit6+0.20;
-        $query_credit_update6="update users set credit='$credit6' where referral_code='$referee6_code'";
-            mysql_query($query_credit_update6);
-    }
-    if($package=='21$'){
-        $credit6=$credit6+0.30;
-        $query_credit_update6="update users set credit='$credit6' where referral_code='$referee6_code'";
-            mysql_query($query_credit_update6);
-    }
-    if($package=='50$'){
-        $credit6=$credit6+0.40;
-        $query_credit_update6="update users set credit='$credit6' where referral_code='$referee6_code'";
-            mysql_query($query_credit_update6);
-    }
-    if($package=='99$'){
-        $credit6=$credit6+1;
-        $query_credit_update6="update users set credit='$credit6' where referral_code='$referee6_code'";
-            mysql_query($query_credit_update6);
-    }   
+    
+    
 }
 }
 //level 7
@@ -284,31 +149,12 @@ $result_referee7=  mysql_query($query_referee7);
 while ($row7 = mysql_fetch_array($result_referee7)) {
     $referee8_code=$row7['refer_code'];
     $credit7=$row7['credit'];
-    if($package=='5$'){
-        $credit7=$credit7+0.10;
+    
+        $credit7=$credit7+3;
         $query_credit_update7="update users set credit='$credit7' where referral_code='$referee7_code'";
             mysql_query($query_credit_update7);
-    }
-    if($package=='12$'){
-        $credit7=$credit7+0.20;
-        $query_credit_update7="update users set credit='$credit7' where referral_code='$referee7_code'";
-            mysql_query($query_credit_update7);
-    }
-    if($package=='21$'){
-        $credit7=$credit7+0.30;
-        $query_credit_update7="update users set credit='$credit7' where referral_code='$referee7_code'";
-            mysql_query($query_credit_update7);
-    }
-    if($package=='50$'){
-        $credit7=$credit7+0.40;
-        $query_credit_update7="update users set credit='$credit7' where referral_code='$referee7_code'";
-            mysql_query($query_credit_update7);
-    }
-    if($package=='99$'){
-        $credit7=$credit7+1;
-        $query_credit_update7="update users set credit='$credit7' where referral_code='$referee7_code'";
-            mysql_query($query_credit_update7);
-    }   
+    
+    
 }
 }
 //level 8
@@ -319,31 +165,12 @@ $result_referee8=  mysql_query($query_referee8);
 while ($row8 = mysql_fetch_array($result_referee8)) {
     $referee9_code=$row8['refer_code'];
     $credit8=$row8['credit'];
-    if($package=='5$'){
-        $credit8=$credit8+0.10;
+    
+        $credit8=$credit8+2;
         $query_credit_update8="update users set credit='$credit8' where referral_code='$referee8_code'";
             mysql_query($query_credit_update8);
-    }
-    if($package=='12$'){
-        $credit8=$credit8+0.20;
-        $query_credit_update8="update users set credit='$credit8' where referral_code='$referee8_code'";
-            mysql_query($query_credit_update8);
-    }
-    if($package=='21$'){
-        $credit8=$credit8+0.30;
-        $query_credit_update8="update users set credit='$credit8' where referral_code='$referee8_code'";
-            mysql_query($query_credit_update8);
-    }
-    if($package=='50$'){
-        $credit8=$credit8+0.40;
-        $query_credit_update8="update users set credit='$credit8' where referral_code='$referee8_code'";
-            mysql_query($query_credit_update8);
-    }
-    if($package=='99$'){
-        $credit8=$credit8+1;
-        $query_credit_update8="update users set credit='$credit8' where referral_code='$referee8_code'";
-            mysql_query($query_credit_update8);
-    }   
+    
+    
 }
 }
 //level 9
@@ -354,31 +181,12 @@ $result_referee9=  mysql_query($query_referee9);
 while ($row9 = mysql_fetch_array($result_referee9)) {
     $referee10_code=$row9['refer_code'];
     $credit9=$row9['credit'];
-    if($package=='5$'){
-        $credit9=$credit9+0.10;
-        $query_credit_update9="update users set credit='$credit9' where referral_code='$referee9_code'";
-            mysql_query($query_credit_update9);
-    }
-    if($package=='12$'){
-        $credit9=$credit9+0.20;
-        $query_credit_update9="update users set credit='$credit9' where referral_code='$referee9_code'";
-            mysql_query($query_credit_update9);
-    }
-    if($package=='21$'){
-        $credit9=$credit9+0.30;
-        $query_credit_update9="update users set credit='$credit9' where referral_code='$referee9_code'";
-            mysql_query($query_credit_update9);
-    }
-    if($package=='50$'){
-        $credit9=$credit9+0.40;
-        $query_credit_update9="update users set credit='$credit9' where referral_code='$referee9_code'";
-            mysql_query($query_credit_update9);
-    }
-    if($package=='99$'){
+   
         $credit9=$credit9+1;
         $query_credit_update9="update users set credit='$credit9' where referral_code='$referee9_code'";
             mysql_query($query_credit_update9);
-    }   
+    
+    
 }
 }
 //level 10
@@ -389,34 +197,18 @@ $result_referee10=  mysql_query($query_referee10);
 while ($row10 = mysql_fetch_array($result_referee10)) {
     //$referee11_code=$row10['refer_code'];
     $credit10=$row10['credit'];
-    if($package=='5$'){
-        $credit10=$credit10+0.10;
+    
+        $credit10=$credit10+0.50;
         $query_credit_update10="update users set credit='$credit10' where referral_code='$referee10_code'";
             mysql_query($query_credit_update10);
-    }
-    if($package=='12$'){
-        $credit10=$credit10+0.20;
-        $query_credit_update10="update users set credit='$credit10' where referral_code='$referee10_code'";
-            mysql_query($query_credit_update10);
-    }
-    if($package=='21$'){
-        $credit10=$credit10+0.30;
-        $query_credit_update10="update users set credit='$credit10' where referral_code='$referee10_code'";
-            mysql_query($query_credit_update10);
-    }
-    if($package=='50$'){
-        $credit10=$credit10+0.40;
-        $query_credit_update10="update users set credit='$credit10' where referral_code='$referee10_code'";
-            mysql_query($query_credit_update10);
-    }
-    if($package=='99$'){
-        $credit10=$credit10+1;
-        $query_credit_update10="update users set credit='$credit10' where referral_code='$referee10_code'";
-            mysql_query($query_credit_update10);
-    }   
+    
+    
 }
 }
-//header('Location: activate_users.php');
+    }
+ else {
+       $error['activation']="Id already active. No changes made!!"; 
+    }
 }
 if(isset($_POST['deactivate']))
 {
@@ -530,7 +322,7 @@ header('Location: activate_users.php');
 .vertical-menu {
     width: 20%;
     float: left;
-    min-height: 550px;
+    min-height: 770px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
@@ -568,18 +360,21 @@ header('Location: activate_users.php');
     }
 }
 </style>
-<div class="vertical-menu" >
-    <a href="index.php" class="active">Home</a>
-    <a href="article_approval.php">Approve Articles</a>
-    <a href="activate_users.php">Activate Id</a>
-  <a href="add_ads.php">Add Advertisement</a>
+<div class="vertical-menu">
+    <a href="../../index.php" class="active">Home</a>
+  
+  <a href="activate_users.php">Activate Id</a>
   <a href="view_users.php">Users</a>
-  <a href="#">Profile</a>
+  <a href="approved.php">Approved Id</a>
   <a href="check_payment.php">Payment Proof Request</a>
-  <a href="#">Add Campaign</a>
-  <a href="#">Your Referrals</a>
-  <a href="#">Advertisement Campaign</a>
-  <a href="#">How To work?</a>
+  <a href="payment_request.php">Withdrawal Request</a>
+  <a href="sendnotification.php">Send Notification</a>
+  <a href="sendpayment.php">Payment Updation</a>
+
+  
+  
+  
+  
   <a href="#" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
@@ -675,13 +470,36 @@ echo "</table>";
   width: 11rem;
   outline: none;
   background-color:red;">De-Activate</button>
+  <?php if(isset($error['activation'])){?><br/> <span class="error"><?php echo $error['activation'] ?></span>
+                        <?php } ?>
 </div>
 </form>
 </div> 
 
-<div id="footer">
-   <?php require_once './footer.php'; ?>
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
     
-</div>
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
+
 </body>
 </html>

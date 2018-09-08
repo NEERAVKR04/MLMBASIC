@@ -1,7 +1,8 @@
 <?php
     require_once './secure.inc.php';
-    $status = 0;
-    if(isset($_POST['submit'])){
+    $success=0;
+    $errors = array();
+    if(isset($_POST['change_password'])){
         $current_password = $_POST['current_password']; 
         $new_password = $_POST['new_password']; 
         $confirm_password = $_POST['confirm_password']; 
@@ -10,21 +11,23 @@
         $email=$_SESSION['email'];
         $password = md5($current_password);
         $new_password=md5($new_password);
+        $confirm_password=  md5($confirm_password);
         $query = "select * from users where username='$username' and password='$password'";
         $result = mysql_query($query);
         if(mysql_num_rows($result)==1){
            
             if($confirm_password!=$new_password){
-                $status=1;
+                $errors['confirm_password']="Password mismatch";
             }
             else{
             $query_change="update users set password='$new_password' where email='$email'";
             require_once '../db.inc.php';
             mysql_query($query_change);
+            $success=1;
             
             }
             }else{
-            $status=3;
+            $errors['current_password']="Wrong Current password";
         }
     }
     ?>
@@ -208,40 +211,207 @@
         ">
             
         </span></a>
+        
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
+            </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MLMLOGO
             </span></a>
     </div>
     
 </div>
-        <div id="content">
-        <h2>Change Password Form</h2>
-        <form action="change_password.php" method="POST">
-            <table border="0" cellpadding="10">
-                <tbody>
-                    <tr>
-                        <td>Current Password:</td>
-                        <td><input required type="password" name="current_password" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>New Password:</td>
-                        <td><input required type="password" name="new_password" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td>Confirm Password:</td>
-                        <td><input required type="password" name="confirm_password" value="" /></td>
-                    </tr>
-                    <tr >
-                        <td colspan="2" style="text-align: center">
-                            <input type="submit" name="submit" value="Change Password" /></td>
-                        
-                    </tr>
-                </tbody>
-            </table>
+<style>
+    .square{
+        height: auto;
+        width: 70%;
+        display: grid;
+        border: 1px solid #e4e5e7;
+        display: inline-block;
+        float: left;
+        margin-left: 8%;
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 20px;
+        color: #4773C1;
+        background-color: #eee;
+        margin-bottom: 2%;
+        border-radius: 10px;
+        
+        
+    }
+    .square2{
+        height: auto;
+        width: 45%;
+        display: grid;
+        border: 1px solid #e4e5e7;
+        display: inline-block;
+        float: left;
+        margin-left: 2%;
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 20px;
+        color: #4773C1;
+        background-color: #fff;
+        margin-bottom: 2%;
+        border-radius: 10px;
+        
+        
+    }
+</style>
+<style>
+    .login-forms{
+        min-height: 300px;
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 2rem;
+        text-align: center;
+        color: black;
+        
+        
+    }
+    .login-fields{
+        margin-left: 0rem;
+        border-radius: 5px;
+        padding: .6rem 1rem;
+        border: 1px solid #e4e5e7;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: #333;
+        width: 15rem;
+        margin-bottom: 1rem;
+       
+    }
+    .login-labels{
+        margin-top: 1rem;
+        width: 12rem;
+        border:none;
+        background: none;
+        text-align: left;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+</style>
+<style>
+    .login-form {
+  color: #333;
+  background-color: #fff;
+  border-radius: 5px;
+  
+  width: 30rem;
+  
+  height:10rem;
+  text-align: center;
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+.login_details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-left: 15rem;
+  margin-right: 5rem;
+  background: #eee;
+  
+}
+
+.heading-primary {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.input_field {
+  width: 15rem;
+  padding: .6rem 1rem;
+ margin-top: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #e4e5e7;
+  color: #333;
+  font-size: 1rem;
+  margin-left: -5rem;
+}
+
+.input_label {
+  font-size: 1rem;
+  margin-right: 1rem;
+  width: 15rem;
+  margin-left: 18rem;
+  font-weight: bold;
+}
+
+.btn_action {
+  display: flex;
+  grid-column: 1/3;
+}
+
+.btn_special {
+  color: #fff;
+  font-size: 1rem;
+  padding: .5rem 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  
+  border: none;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 200ms ease-in;
+  width: 6rem;
+  outline: none;
+}
+  .btn_special:hover {
+    -webkit-filter: brightness(1.2);
+    transform: translateY(-2px);
+}
+
+</style>
+<div class="square">
+        <div class="square">
+    
+            <form class="login-forms" action="change_password.php" method="POST">
+        <h2>
+            Change Password
+        </h2>
+        <table id="history">
+            <input readonly type="text" class="login-labels"value="Current Password:">
+                <input class="login-fields" type="password" name="current_password" value="">
+                <?php if(isset($errors['current_password'])){?> <br/><span class="error" style="margin-left:2rem;"><?php echo $errors['current_password'] ?></span>
+                        <?php } ?>
+
+                <br/>
+                <input readonly type="text" class="login-labels" value="New Password:">
+                <input class="login-fields" type="password" name="new_password" value="">
+                <?php if(isset($errors['new_password'])){?> <br/><span class="error"><?php echo $errors['new_password'] ?></span>
+                        <?php } ?>
+                <br/>
+                <input readonly type="text" class="login-labels" value="Confirm Password:">
+                <input class="login-fields" type="password" name="confirm_password" value="">
+                <?php if(isset($errors['confirm_password'])){?> <br/><span class="error"><?php echo $errors['confirm_password'] ?></span>
+                        <?php } ?>
+                <br/>
+                
+                <input type="submit" name="change_password" value="Update" class="btn_special" style="background-color: steelblue;margin-bottom: 5px;" />
+                <input type="submit" name="cancel" value="Cancel" class="btn_special" style="background-color: tomato;margin-bottom: 5px;" />
+                    <?php
+                    if($success==1){
+                    ?>       
+                <?php
+                      echo "<br/>".'Password changed successfully!!';
+                ?>
+                <?php
+                    }
+                ?>
+
+
+            
+        </table>
         </form>
-        <?php if($status==3) { ?>
-            <h2 class="error">The current password is Incorrect</h2>
-            <?php } ?>
         </div>
     </body>
     <div id="footer">

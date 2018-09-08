@@ -118,9 +118,9 @@ if(mysql_query($result_rfr)>=0)
 <style>
 
 .vertical-menu {
-    width: 20%;
+    width: 16%;
     float: left;
-    min-height: 550px;
+    min-height: 770px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
@@ -155,23 +155,11 @@ if(mysql_query($result_rfr)>=0)
         width: 80%;
         border-left: none;
         min-height: 550px;
+        
     }
 }
 </style>
-<div class="vertical-menu" >
-    <a href="index.php" class="active">Home</a>
-  <a href="#">Approve Articles</a>
-  <a href="activate_users.php">Activate Id</a>
-  <a href="add_ads.php">Add Advertisement</a>
-  <a href="#">Users</a>
-  <a href="#">Profile</a>
-  <a href="#">Payment Proof Request</a>
-  <a href="#">Add Campaign</a>
-  <a href="#">Your Referrals</a>
-  <a href="#">Advertisement Campaign</a>
-  <a href="#">How To work?</a>
-  <a href="#" class="active-red">LOGOUT</a>
-  
+
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->
     </div>
@@ -180,7 +168,8 @@ if(mysql_query($result_rfr)>=0)
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 79.74%;
+    width: 100%;
+    
 }
 
 #customers td, #customers th {
@@ -205,30 +194,106 @@ if(mysql_query($result_rfr)>=0)
 }
 </style>
 <?php
+if(isset($_POST['hide'])){
+    $useremail=$_POST['useremail'];
+    $query="update paymentwithdraw set request='HIDE' where email='$useremail'";
+require_once '../db.inc.php';
+mysql_query($query);
+}
+?>
+<?php 
+echo "<form action='payment_request.php' method='POST'  style='background:#eee;'>";
+echo "<tr>"."<th>"."<input type='submit' name='pending' value='Show Pending' style='color: #fff;
+  font-size: 1rem;
+  padding: .5rem 1rem;
+  
+  margin-top: 0.3rem;
+  margin-bottom:5px;
+  margin-left: 30%;
+  margin-right: 5px;
+  
+  background:blue;
+  border: none;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 200ms ease-in;
+  width: 12rem;
+  outline: none;'>"."<input type='submit' name='unhide' value='Show Hidden' style='color: #fff;
+  font-size: 1rem;
+  padding: .5rem 1rem;
+  
+  margin-top: 0.3rem;
+  margin-bottom:5px;
+  margin-left: auto;
+  margin-right: 5px;
+  
+  background:blue;
+  border: none;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 200ms ease-in;
+  width: 12rem;
+  outline: none;'>"."<input type='submit' name='approved' value='Show Approved' style='color: #fff;
+  font-size: 1rem;
+  padding: .5rem 1rem;
+  margin-left: auto;
+  
+  margin-top: 0.3rem;
+  margin-bottom:5px;
+  background:tomato;
+  border: none;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 200ms ease-in;
+  width: 12rem;
+  outline: none;'>"."</th>"."</tr>";
+echo "</form>";
+
+?>
+
+<?php
+
+if(isset($_POST['pending'])){
+echo "<form method='POST' action='payment_request.php'>";
 echo "<table id='customers'>
 <tr>
 <th>Email</th>
 <th>Name</th>
-<th>Bank Name</th>
-<th>Bank Type</th>
-<th>A/C No.</th>
-<th>IFSC Code</th>
+<th>Balance</th>
+<th>Method</th>
+<th>Bank</th>
+<th>Type</th>
+<th>Account No.</th>
+<th>IFSC</th>
 <th>UPI</th>
 <th>Paytm</th>
 <th>Paypal</th>
-<th>Method</th>
-<th>Withdrawal Amount</th>
 <th>HIDE</th>
 </tr>";
-
     $query_users="select * from paymentwithdraw where request='pending'";
     require_once '../db.inc.php';
     $result_users=  mysql_query($query_users);
     while($row=  mysql_fetch_array($result_users))
-{
+{        session_start();
+        $useremail=$row['email'];
+        
+        $query="select * from users where email='$useremail'";
+        require_once '../db.inc.php';
+        $result=  mysql_query($query);
+        while ($rowuser = mysql_fetch_array($result)) {
+            $credituser=$rowuser['credit'];
+        }
 echo "<tr>";
-echo "<td>" . $row['email'] . "</td>";
+echo "<td>" . "<input readonly style='border:none;background:#eee;width:15rem;' type='text' name='useremail' value='$useremail'>". "</td>";
 echo "<td>" . $row['first_name'] ." ".$row['last_name']. "</td>";
+echo "<td>" . $credituser . "</td>";
+echo "<td>" . $row['method'] . "</td>";
 echo "<td>" . $row['bank_name'] . "</td>";
 echo "<td>" . $row['bank_type'] . "</td>";
 echo "<td>" . $row['account_no'] . "</td>";
@@ -236,17 +301,120 @@ echo "<td>" . $row['ifsc'] . "</td>";
 echo "<td>" . $row['upi'] . "</td>";
 echo "<td>" . $row['paytm'] . "</td>";
 echo "<td>" . $row['paypal'] . "</td>";
-echo "<td>" . $row['method'] . "</td>";
-echo "<td>" . $row['amount'] . "</td>";
-echo "<td>"."<a href=''>"."HIDE"."</a>"."</td>";
-echo "</tr>";
+echo "<td>"."<input type='submit' name='hide' value='Hide'>"."</td>";
 
+echo "</tr>";
+}
 }
 echo "</table>";
+echo "</form>";
+?>
+<?php
+if(isset($_POST['unhide'])){
+    echo "<form method='POST' action='payment_request.php'>";
+echo "<table id='customers'>
+<tr>
+<th>Email</th>
+<th>Name</th>
+<th>Balance</th>
+<th>Method</th>
+<th>Bank</th>
+<th>Type</th>
+<th>Account No.</th>
+<th>IFSC</th>
+<th>UPI</th>
+<th>Paytm</th>
+<th>Paypal</th>
+<th>Status</th>
+</tr>";
+    $query_users="select * from paymentwithdraw where request='HIDE'";
+    require_once '../db.inc.php';
+    $result_users=  mysql_query($query_users);
+    while($row=  mysql_fetch_array($result_users))
+{        session_start();
+        $useremail=$row['email'];
+        
+        $query="select * from users where email='$useremail'";
+        require_once '../db.inc.php';
+        $result=  mysql_query($query);
+        while ($rowuser = mysql_fetch_array($result)) {
+            $credituser=$rowuser['credit'];
+        }
+echo "<tr>";
+echo "<td>" . "<input readonly style='border:none;background:#eee;width:15rem;' type='text' name='useremail' value='$useremail'>". "</td>";
+echo "<td>" . $row['first_name'] ." ".$row['last_name']. "</td>";
+echo "<td>" . $credituser . "</td>";
+echo "<td>" . $row['method'] . "</td>";
+echo "<td>" . $row['bank_name'] . "</td>";
+echo "<td>" . $row['bank_type'] . "</td>";
+echo "<td>" . $row['account_no'] . "</td>";
+echo "<td>" . $row['ifsc'] . "</td>";
+echo "<td>" . $row['upi'] . "</td>";
+echo "<td>" . $row['paytm'] . "</td>";
+echo "<td>" . $row['paypal'] . "</td>";
+echo "<td>"."Hidden"."</td>";
+
+echo "</tr>";
+}
+echo "</table>";
+echo "</form>";
+
+}
+?>
+<?php
+if(isset($_POST['approved'])){
+    echo "<form method='POST' action='payment_request.php'>";
+echo "<table id='customers'>
+<tr>
+<th>Email</th>
+<th>Name</th>
+<th>Balance</th>
+<th>Method</th>
+<th>Bank</th>
+<th>Type</th>
+<th>Account No.</th>
+<th>IFSC</th>
+<th>UPI</th>
+<th>Paytm</th>
+<th>Paypal</th>
+<th>HIDE</th>
+</tr>";
+    $query_users="select * from paymentwithdraw where request='approved'";
+    require_once '../db.inc.php';
+    $result_users=  mysql_query($query_users);
+    while($row=  mysql_fetch_array($result_users))
+{        session_start();
+        $useremail=$row['email'];
+        
+        $query="select * from users where email='$useremail'";
+        require_once '../db.inc.php';
+        $result=  mysql_query($query);
+        while ($rowuser = mysql_fetch_array($result)) {
+            $credituser=$rowuser['credit'];
+        }
+echo "<tr>";
+echo "<td>" . "<input readonly style='border:none;background:#eee;width:15rem;' type='text' name='useremail' value='$useremail'>". "</td>";
+echo "<td>" . $row['first_name'] ." ".$row['last_name']. "</td>";
+echo "<td>" . $credituser . "</td>";
+echo "<td>" . $row['method'] . "</td>";
+echo "<td>" . $row['bank_name'] . "</td>";
+echo "<td>" . $row['bank_type'] . "</td>";
+echo "<td>" . $row['account_no'] . "</td>";
+echo "<td>" . $row['ifsc'] . "</td>";
+echo "<td>" . $row['upi'] . "</td>";
+echo "<td>" . $row['paytm'] . "</td>";
+echo "<td>" . $row['paypal'] . "</td>";
+echo "<td>"."<input type='submit' name='hide' value='Hide'>"."</td>";
+
+echo "</tr>";
+}
+echo "</table>";
+echo "</form>";
+
+}
 ?>
 </div>  
-<div id="footer">
-   <?php require_once './footer.php'; ?>
-</div>
+    
+
 </body>
 </html>

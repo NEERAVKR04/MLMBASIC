@@ -155,7 +155,7 @@ if(isset($_POST['unhide'])){
 .vertical-menu {
     width: 20%;
     float: left;
-    min-height: 650px;
+    min-height: 770px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
@@ -197,17 +197,20 @@ if(isset($_POST['unhide'])){
 }
 </style>
 <div class="vertical-menu">
-  <a href="#" class="active">Home</a>
-  <a href="article_approval.php">Approve Articles</a>
+    <a href="../../index.php" class="active">Home</a>
+  
   <a href="activate_users.php">Activate Id</a>
-  <a href="add_ads.php">Add Advertisement</a>
   <a href="view_users.php">Users</a>
-  <a href="#">Profile</a>
+  <a href="approved.php">Approved Id</a>
   <a href="check_payment.php">Payment Proof Request</a>
-  <a href="#">Add Campaign</a>
-  <a href="#">Your Referrals</a>
-  <a href="#">Advertisement Campaign</a>
-  <a href="#">How To work?</a>
+  <a href="payment_request.php">Withdrawal Request</a>
+  <a href="sendnotification.php">Send Notification</a>
+  <a href="sendpayment.php">Payment Updation</a>
+
+  
+  
+  
+  
   <a href="#" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
@@ -224,6 +227,8 @@ if(isset($_POST['unhide'])){
     </style>
     <form action="check_payment.php" method="POST">
     <label><button name="unhide" style="margin-top: 1rem;margin-left: 2rem;border-radius: 2rem;">See Hidden Requests</button></label>
+    <label><a href="approved.php" type="submit" name="approved_list" style="margin-top: 1rem;margin-left: 2rem;border-radius: 2rem;">See Approved Requests</a></label>
+    
     </form>
     <!--"<font style='margin-left: 1rem'>"-->
     
@@ -254,9 +259,11 @@ if(isset($_POST['unhide'])){
                 if(($display<6)){
             $payment_status=$row_payment['payment_approval'];
             $tid=$row_payment['tid'];
-            $payment_proof=$row_payment[payment_proof];
+            $user_name=$row_payment['username'];
             $image_name=$row_payment['image_name'];
+            $payment_proof=$image_name;
             $email_user=$row_payment['email'];
+            
             $activation=$row_payment['activation'];
           if($payment_status!='HIDE' && $activation!='Y'){
             echo "<form method='POST' action='check_payment.php'>";
@@ -273,8 +280,8 @@ if(isset($_POST['unhide'])){
             echo "<br/>";
             echo "<li style='text-align: justify;'>"."Transaction Method: "."<label style='font-color:black;'>".$row_payment['payment_method']."</label>";
             echo "<br/>";
-            echo "Payment Proof ".'<a style="color: #fff;font-size: .8rem;padding: .2rem 1rem;border: none;left:2rem;
-                                    margin-bottom:1rem;margin-left:0.2rem;border-radius: 100px;align-items: center;justify-content: center;cursor: pointer;transition: 200ms ease-in;width: 7rem;outline: none;background-color:steelblue;" download href="data:image/jpeg;base64,'.base64_encode( $payment_proof ).'"/>'."Download & Check"."</a>";
+            echo "Payment Proof "."<a style='color: #fff;font-size: .8rem;padding: .2rem 1rem;border: none;left:2rem;
+                                    margin-bottom:1rem;margin-left:0.2rem;border-radius: 100px;align-items: center;justify-content: center;cursor: pointer;transition: 200ms ease-in;width: 7rem;outline: none;background-color:steelblue;' download href='../member/payments/$payment_proof'>"."Download & Check"."</a>";
             echo"<br/>";echo"<br/>";
            // echo "<label style='color:black;'>"."File name: "."</label>"."$image_name";
             echo "<br/>";
@@ -294,8 +301,30 @@ if(isset($_POST['unhide'])){
     ?>
 </div>
 
-<div id="footer">
-   <?php require_once './footer.php'; ?>
-</div>
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
+
+
 </body>
 </html>

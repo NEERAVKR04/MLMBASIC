@@ -118,7 +118,7 @@ $referral_code_check=  mysql_query($query_check_code);
 .vertical-menu {
     width: 20%;
     float: left;
-    min-height: 550px;
+    min-height: 770px;
     margin-left: 0px;
     background-color: #eee;
     border: 1px solid;
@@ -157,45 +157,53 @@ $referral_code_check=  mysql_query($query_check_code);
 }
 </style>
 <div class="vertical-menu">
-  <a href="#" class="active">Home</a>
-  <a href="article_approval.php">Approve Articles</a>
+    <a href="../../index.php" class="active">Home</a>
+  
   <a href="activate_users.php">Activate Id</a>
-  <a href="add_ads.php">Add Advertisement</a>
   <a href="view_users.php">Users</a>
-  <a href="#">Profile</a>
+  <a href="approved.php">Approved Id</a>
   <a href="check_payment.php">Payment Proof Request</a>
-  <a href="#">Add Campaign</a>
-  <a href="#">Your Referrals</a>
-  <a href="#">Advertisement Campaign</a>
-  <a href="#">How To work?</a>
+  <a href="payment_request.php">Withdrawal Request</a>
+  <a href="sendnotification.php">Send Notification</a>
+  <a href="sendpayment.php">Payment Updation</a>
+
+  
+  
+  
+  
   <a href="#" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->
     </div>
-<div class="vertical-content">
-    <style>
-    .square{
-        height: 200px;
-        width: 200px;
-        border: 3px solid;
-        display: inline-block;
-        float: left;
-        margin-left: 8%;
-        margin-top: 5%;
-        text-align: center;
-        font-size: 20px;
-        color: #4773C1;
-        
-        
-    }
-</style>
-</div>
+
+
+<div style="width: 100%;
+	overflow: hidden;
+	margin-left: 0px;
+        min-height: 420px;
+        background-color: #eee;">
+        <br/><br/>
+<h3 style="color: #2980f3;
+    font-family: sans-serif;
+    font-size: 24.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-align: center">earn extra money</h3>
+    <h2 style="color: #5a5a5a;
+    font-family: sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 3px;
+    
+    text-align: center">why <b>join us?</b></h2>
+    </div>
 
     
   
-<div id="footer">
-   <?php require_once './footer.php'; ?>
-</div>
+
 </body>
 </html>

@@ -2,6 +2,8 @@
 require_once './secure.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
+$email=$_SESSION['email'];
+
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
 $referral_code_check=  mysql_query($query_check_code);
@@ -130,6 +132,7 @@ if(mysql_query($result_rfr)>=0)
     border: 1px solid;
     margin-top: 62px;
     margin-bottom: 0%;
+    
 }
 
 .vertical-menu a {
@@ -173,7 +176,8 @@ if(mysql_query($result_rfr)>=0)
   <a href="profile.php">PROFILE</a>
   <a href="referral_list.php">REFERRALS</a>
   <a href="wallet.php">WALLET</a>
-   <a href="withdrawal_history.php">WITHDRAWAL</a>
+   <a href="withdrawal_history.php">TRANSACTIONS</a>
+   <a href="requestPayment.php">WITHDRAW</a>
    <a href="bankdetails.php">BANK DETAILS</a>
   <a href="sendpayment.php">PAYMENT OPTIONS</a>
   <a href="payment.php">PAYMENT PROOFS</a>
@@ -206,6 +210,9 @@ if(mysql_query($result_rfr)>=0)
         </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
+            </span></a>
+        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MLMLOGO
             </span></a>
     </div>
     
@@ -306,22 +313,31 @@ if(mysql_query($result_rfr)>=0)
         <br/>
 <?php
 $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit=Register";
-    echo "<label style='color:black;font-weight:bolder;font-size:18px;font-color:black;'>"."Your Referral Link:"." "."<input type='text' value='$referral_link' style='width:60%;padding:6px 12px;font-size:14px;height:14px;border:1px solid #ccc;border-radius:4px;'>"."</label>"."<br/>";
-?>
+    echo "<label style='color:black;font-weight:bolder;font-size:18px;font-color:black;'>"."Your Referral Link:"." "."<input type='text' value='$referral_link' style='width:60%;padding:6px 12px;font-size:14px;height:14px;border:1px solid #ccc;border-radius:4px;'>"."</label>"."<br/><br/>"."<label style='color:black;font-weight:bolder;font-size:18px;text-align:center;'>"."Referral code: "."</label>"."<label style='color:blue;font-weight:bolder;font-size:18px;text-align:center;'>".$referral_code;
+    
+    ?>
     </div>
     <div class="announcements">
-        <form action="index.php" method="POST">
+        <form action="notification.php" method="POST">
             <table id="customers">
-                <th>Announcements</th>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
+                <th><a href="notification.php" style="color: #fff;">Announcements</a></th>
+                <?php
+                $query_nof="select * from notifications ORDER BY date DESC LIMIT 0,3";
+                require_once '../db.inc.php';
+                $result_nof=  mysql_query($query_nof);
+                $count_nofno=0;
+                if($count_nofno<=3){
+                while ($rownof = mysql_fetch_array($result_nof)) {
+                    $title=$rownof['title'];
+                    $message=$rownof['message'];
+                    $message= substr($message,0,70);
+                    echo "<tr>"."<td>"."<label style='color:#000;font-size:14px;font-weight:bold;'>".$title."</label>";
+                    echo "<br>".$message."  "."<a href='notification.php' style='color:#000;font-size:11px;text-align:right;'>"."read more..."."</a>"."</td>"."</tr>";
+                    $count_nofno++;
+                }
+                }
+                ?>
+
             
         </table>
         </form>
@@ -347,36 +363,25 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
 
 
 <div class="square">
-    <form action="index.php" method="POST">
+    <form action="notification.php" method="POST">
             <table id="history">
-                <th>Your Information</th>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
+                <th><a href="notification.php" style="color: #fff;">Informations</a></th>
+                <?php
+                $query_inf="select * from information where email='$email' ORDER BY date DESC LIMIT 0,3";
+                require_once '../db.inc.php';
+                $result_inf=  mysql_query($query_inf);
+                $count_infno=0;
+                if($count_infno<=3){
+                while ($row1 = mysql_fetch_array($result_inf)) {
+                    $message=$row1['message'];
+                    $message= substr($message,0,40);
+                    echo "<tr>"."<td>".$message."  "."<a href='notification.php' style='color:#000;font-size:11px;'>"."read more..."."</a>"."</td>"."</tr>";
+                    $count_infno++;
+                }
+                }
+                ?>
                 
-            
-        </table>
-        </form>
-</div>
-<div class="square">
-    <form action="index.php" method="POST">
-            <table id="history">
-                <th>Referrals</th>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
+                
 
                 
             
@@ -386,16 +391,47 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
 <div class="square">
     <form action="index.php" method="POST">
             <table id="history">
-                <th>Withdrawals</th>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
-                <tr>
-                    <td>Now, you can withdraw into your UPI address</td>
-                </tr>
+                <th><a href="referral_list.php" style="color: #fff;">Referrals</a></th>
+                <?php
+                $query_ref="select * from users where refer_code='$referral_code' ORDER BY joined_date DESC LIMIT 0,3";
+                require_once '../db.inc.php';
+                $result_ref=  mysql_query($query_ref);
+                $count_refno=0;
+                if($count_refno<=3){
+                while ($row1 = mysql_fetch_array($result_ref)) {
+                    echo "<tr>"."<td>"."Your friend ".$row1['first_name']." joined with your refer code!!"."</td>"."</tr>";
+                
+                    $count_refno++;
+                }
+                }
+                ?>
+                
+                
+
+                
+            
+        </table>
+        </form>
+</div>
+<div class="square">
+    <form action="index.php" method="POST">
+            <table id="history">
+                <th><a href="withdrawal_history.php" style="color: #fff;">Withdrawals</a></th>
+                <?php
+                $query_his="select * from withdrawal where email='$email' ORDER BY date DESC LIMIT 0,3";
+                require_once '../db.inc.php';
+                $result_his=  mysql_query($query_his);
+                $count_no=0;
+                if($count_no<=3){
+                while ($row1 = mysql_fetch_array($result_his)) {
+                    echo "<tr>"."<td>"."Withdrawal of Rs ".$row1['amount']." has been processed"."</td>"."</tr>";
+                
+                    $count_no++;
+                }
+                }
+                ?>
+                
+                
 
                 
             
