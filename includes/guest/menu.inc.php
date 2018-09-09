@@ -1,9 +1,8 @@
 <ul>
 		<li><a href="index.php">Home Page</a></li>
-		<li><a href="loginuser.php">Login</a></li>
-		<li><a href="register.php">Register</a></li>
-                <li><a href="register.php">How to work?</a></li>
-		<li><a href="contact.php">Pricing?</a></li>
-		<li><a href="about.php">About Us</a></li>
+		<li><a href="howtowork.php">How To Work?</a></li>
+                <li><a href="">Business opportunities</a></li>
+                <li><a href="terms_conditions.php">Terms & conditions</a></li>
+                <li><a href="privacy.php">Privacy policy</a></li>
 		<li><a href="contact.php">Contact Us</a></li>
 </ul>
