@@ -2,13 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Earning Junction</title>
+        <title>MAKEASYLIFE</title>
     
     
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>HOW TO WORK?</title>
+<title>BUSINESS OPORTUNITIES</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <link href="styles/default.css" rel="stylesheet" type="text/css" />
 <style>
     p{
@@ -72,44 +74,14 @@
     }
 </style>
 <div class="square">
-    <h3 style="color:#000;text-align: center;">HOW TO WORK?</h3>
-    You can easily start your business by just opting our helping plan which costs you Rs 99/- only. Our platform give big opportunity to every one for earning money just helping at Rs 99/- if you help only at Rs 99 and tell your friend, family members to do same and at least your 5 friends do same you can get chance to earn lakh or crore rupees example are given.
-    <br/><br/>
-<b>Suppose you help us from Rs 99 and tell your friend and at least 5 friends do same so you can earn like:
-</b>
+    <h3 style="color:#000;text-align: center;">BUSINESS OPPORTUNITIES?</h3>
+    This is a helping platform who give you opportunity to earn crore just helping at Rs99 you can get a chance to earn crore just help one time at Rs 99 every one can do that student, job person, house wife, educated, uneducated this opportunity for every one we spend lots of money in other think this time to take a small decision at help just Rs 99/- and tell your friend to do same and get a chance to earn crore Join this opportunity and achieve your dreams...
 <br/><br/>
-<ul>
-    <li><label style="width:5rem;">1st level: </label> 5×20=Rs 100/-</li>
-    <br/>
-    <li><label style="width:5rem;">2nd level: </label> 25× 15 =Rs 375/-</li>
-    <br/>
-    <li><label style="width:5rem;">3rd level: </label> 125×12 =Rs 1500/-</li>
-    <br/>
-    <li><label style="width:5rem;">4th level: </label> 625 ×10 =Rs 6250/-</li>
-    <br/>
-    <li><label style="width:5rem;">5th level: </label> 3125×7 =Rs 21,875/-</li>
-    <br/>
-    <li><label style="width:5rem;">6th level: </label> 15625×5 =Rs 78,125/-</li>
-    <br/>
-    <li><label style="width:5rem;">7th level: </label> 78,125×3 =Rs 234,375/-</li>
-    <br/>
-    <li><label style="width:5rem;">8th level: </label> 390,625×2=Rs 781,250/-</li>
-    <br/>
-    <li><label style="width:5rem;">9th level: </label> 1,953,125×1=Rs 1,953,125/-</li>
-    <br/>
-    <li><label style="width:5rem;">10th level: </label> 9,765,625×0.50=Rs 4,882,812/-</li>
-    <br/>
-    Total earnings: Rs 7,959,787/-
-    <br/><br/>
-    This is example for just 5 friend you refer. Suppose you refer to 10 friends then you can calculate how much you earn. 
-    <<b>This is power of only one help at Rs 99/-</b>
-</ul>
 </div>
     
     
     <div id="content2">
         <br/><br/>
-
 <h3 style="color: #2980f3;
     font-family: sans-serif;
     font-size: 24.5px;
@@ -127,7 +99,7 @@
     
     text-align: center">Be lakhpati or crore pati by just opting our helping plan & refer your friends!!</h2>
         <ul>
-           <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
+            <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
             <li style="margin-left: 3rem;"><a href="opportunities.php" style="font-size: 14px;">Business opportunities</a></li>
 
             <li style="margin-left: 3rem;"><a href="terms_conditions.php" style="font-size: 14px;">Terms & conditions</a></li>
@@ -138,7 +110,6 @@
             <li style="margin-left: 3rem;"><a href="howtowork.php" style="font-size: 14px;">How to work?</a></li>
 
             <li style="margin-left: 3rem;"><a href="loginuser.php" style="font-size: 14px;">Login</a></li>
-
 
         </ul>
     </div>

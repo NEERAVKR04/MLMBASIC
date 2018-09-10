@@ -2,33 +2,19 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Earning Junction</title>
-    
-    
+        <title></title>
+    </head>
+    <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Earning Junction(EJ)</title>
+<title>HOMEPAGE</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="styles/default.css" rel="stylesheet" type="text/css" />
-<style>
-    p{
-        font-size: 0.99em;
-    }
-    img
-    {
-        float: right;
-        margin: 2px;
-        margin-left: 5px;
-        
-        
-    }
-</style>
 </head>
-<body style="overflow-x: hidden;">
-    <div id="header">
+<body>
+<div id="header">
 	<?php require_once './includes/guest/header.php';?>
 </div>
-    
 <div id="menu">
 	<?php require_once './includes/guest/menu.inc.php'; ?>
 </div>
@@ -137,19 +123,19 @@ img {vertical-align: middle;}
 
 <div class="mySlides fade">
   <div class="numbertext">1 / 3</div>
-  <img src="images/banner1.jpg" style="width:100%;height:350px;">
+  <img src="images/banner1.jpg" style="width:100%;height:18rem;">
   <div class="text"></div>
 </div>
 
 <div class="mySlides fade">
   <div class="numbertext">2 / 3</div>
-  <img src="images/banner2.jpg" style="width:100%;height:350px;">
+  <img src="images/banner2.jpg" style="width:100%;height:18rem;">
   <div class="text"></div>
 </div>
 
 <div class="mySlides fade">
   <div class="numbertext">3 / 3</div>
-  <img src="images/banner3.png" style="width:100%;height:350px;">
+  <img src="images/banner3.png" style="width:100%;height:18rem;">
   <div class="text"></div>
 </div>
 
@@ -193,45 +179,33 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
 }
 </script>
-
-<div id="content">
-    <style>
-* {
-  box-sizing: border-box;
-}
-
-.column {
-    float: left;
-    width: 30%;
-    padding: 0px; 
-}
-
-/* Clearfix (clear floats) */
-.row::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-</style>
-<br/><br/>
-    <h2 style="color: #5a5a5a;
-    font-family: sans-serif;
-    font-size: 30px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 3px;
-    text-align: center">how you <b>Start?</b></h2>
-    <br/>
-
-    <br/>
-    <style>
+<style>
     .square{
         height: auto;
-        width: 75%;
+        width: 95%;
         display: block;
         text-align: justify;
         border: none;
+        
+        
+        margin-left: 2%;
+        margin-top: 3rem;
+        
+        font-size: 16px;
+        color: #000;
+        background-color: #fff;
+        margin-bottom: 2%;
+        border-radius: 10px;
+        
+        
+    }
+</style>
+<style>
+    .square{
+        height: auto;
+        width: 80%;
+        display: inherit;
+        text-align: justify;
         padding-top: 5px;
         padding-left: 5px;
         padding-right: 3px;
@@ -254,6 +228,7 @@ function showSlides(n) {
 <br/><br/>
     </div>
     <br/>
+    
     <style>
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -283,9 +258,10 @@ function showSlides(n) {
     
 }
 </style>
+<div>
     <?php
 echo "<center>"."<form action='#' method='POST'>";
-echo "<h2>"."Recent 10 withdrawals to users "."</h2>";
+echo "<h2 style='color:#000;font-size:15px;'>"."Recent 10 withdrawals to users "."</h2>";
 echo "<table id='customers'>
 <tr>
 <th>Withdrawal Amount</th>
@@ -311,11 +287,11 @@ $query_his="select * from withdrawal ORDER BY date DESC LIMIT 0,10";
        }
     }
     
-echo "</table>"."</center>";
-echo "<br/>";
+echo "</table>"."</form>"."</center>";
 ?>
+<br/>
 </div>
-    
+
     <div id="content2">
         <br/><br/>
 <h3 style="color: #2980f3;
@@ -325,16 +301,32 @@ echo "<br/>";
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
+    text-align: center">why users choose us?</h3>
     <h2 style="color: #5a5a5a;
     font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
+    font-size: 18px;
     
-    text-align: center">why <b>join us?</b></h2>
+    font-weight: 400;
+    margin-top: 11px;
+    
+    text-align: center">Be lakhpati or crore pati by just opting our helping plan & refer your friends!!</h2>
+        <ul>
+            <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
+            <li style="margin-left: 3rem;"><a href="opportunities.php" style="font-size: 14px;">Business opportunities</a></li>
+
+            <li style="margin-left: 3rem;"><a href="terms_conditions.php" style="font-size: 14px;">Terms & conditions</a></li>
+            <li style="margin-left: 3rem;"><a href="register.php" style="font-size: 14px;">Register</a></li>
+
+            <li style="margin-left: 3rem;"><a href="contact.php" style="font-size: 14px;">Contact Us</a></li>
+
+            <li style="margin-left: 3rem;"><a href="howtowork.php" style="font-size: 14px;">How to work?</a></li>
+
+            <li style="margin-left: 3rem;"><a href="loginuser.php" style="font-size: 14px;">Login</a></li>
+
+
+        </ul>
     </div>
+
 <div id="footer">
    <?php require_once './includes/guest/footer.php'; ?>
 </div>

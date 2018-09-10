@@ -1,15 +1,13 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $email=$_SESSION['email'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
-     
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -20,7 +18,7 @@ if(mysql_query($result_rfr)>=0)
        if($activation_status!='Y'){
            header('Location: payment.php');
        }
-   }
+   
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +26,7 @@ if(mysql_query($result_rfr)>=0)
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>MuslimIn</title>
+        <title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -212,8 +210,8 @@ if(mysql_query($result_rfr)>=0)
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
-        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+        <a href="#"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MAKEASYLIFE
             </span></a>
     </div>
     
@@ -261,10 +259,10 @@ echo "<table id='customers'>
 </tr>";
 $query_his="select * from withdrawal where email='$email' ";
     require_once '../db.inc.php';
-    $result_his=  mysql_query($query_his);
+    $result_his=  mysqli_query($con,$query_his);
     $count_his=0;
     if($count_his<=20){
-    while($row=  mysql_fetch_array($result_his)){
+    while($row=  mysqli_fetch_array($result_his)){
      $proof_name=$row['proof'];  
     echo "<tr>";
     echo "<td>"."Withdrawal of "."<b>"."Rs ".$row['amount'] ."/-"."</b>" ." has been processed!! ".$row1['last_name']. "</td>";

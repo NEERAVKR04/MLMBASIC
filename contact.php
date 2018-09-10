@@ -6,7 +6,7 @@
     </head>
     <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Student Information System(SIS)</title>
+<title>MAKEASYLIFE</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="styles/default.css" rel="stylesheet" type="text/css" />
@@ -123,16 +123,32 @@ margin:40px auto
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
+    text-align: center">why users choose us?</h3>
     <h2 style="color: #5a5a5a;
     font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
+    font-size: 18px;
     
-    text-align: center">why <b>join us?</b></h2>
+    font-weight: 400;
+    margin-top: 11px;
+    
+    text-align: center">Be lakhpati or crore pati by just opting our helping plan & refer your friends!!</h2>
+        <ul>
+            <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
+            <li style="margin-left: 3rem;"><a href="opportunities.php" style="font-size: 14px;">Business opportunities</a></li>
+
+            <li style="margin-left: 3rem;"><a href="terms_conditions.php" style="font-size: 14px;">Terms & conditions</a></li>
+            <li style="margin-left: 3rem;"><a href="register.php" style="font-size: 14px;">Register</a></li>
+
+            <li style="margin-left: 3rem;"><a href="contact.php" style="font-size: 14px;">Contact Us</a></li>
+
+            <li style="margin-left: 3rem;"><a href="howtowork.php" style="font-size: 14px;">How to work?</a></li>
+
+            <li style="margin-left: 3rem;"><a href="loginuser.php" style="font-size: 14px;">Login</a></li>
+
+
+        </ul>
     </div>
+
 <div id="footer">
    <?php require_once './includes/guest/footer.php'; ?>
 </div>

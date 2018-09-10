@@ -1,14 +1,13 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
-     
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -17,7 +16,7 @@ if(mysql_query($result_rfr)>=0)
           $package=$row["package"];
           $email=$row['email'];
        }
-   }
+   
 ?>
 
 <?php
@@ -33,7 +32,7 @@ if(isset($_POST['getdetails'])){
 <html>
     <head>
         <title>
-            LOGIN FORM
+            Payment Page
         </title>
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -374,8 +373,8 @@ if(isset($_POST['getdetails'])){
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
-        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+        <a href="https://www.makeasylife.com"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MAKEASYLIFE
             </span></a>
     </div>
     

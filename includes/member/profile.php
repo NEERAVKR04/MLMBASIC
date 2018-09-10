@@ -1,14 +1,15 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $email=$_SESSION['email'];
 $mobile=$_SESSION['mobile'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
+$referral_code_check=  mysqli_query($con,$query_check_code);
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -40,7 +41,7 @@ if(isset($_POST['save']))
     
     $query_update_profile="update users set first_name='$first_name',last_name='$last_name',gender='$gender',country='$country',state='$state',city='$city',address='$address',pincode='$pincode' where username='$username'";
     require_once '../db.inc.php';
-    mysql_query($query_update_profile);
+    mysqli_query($con,$query_update_profile);
     
 
 }
@@ -51,7 +52,7 @@ if(isset($_POST['save']))
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Muslimin</title>
+<title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -233,8 +234,8 @@ if(isset($_POST['save']))
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
-        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+        <a href="https://www.makeasylife.com"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MAKEASYLIFE
             </span></a>
     </div>
     

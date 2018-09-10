@@ -1,14 +1,15 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
+$referral_code_check=  mysqli_query($con,$query_check_code);
+if(mysqli_query($con,$result_rfr)>=0)
    {
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -27,7 +28,7 @@ if(mysql_query($result_rfr)>=0)
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MuslimIn</title>
+<title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -210,8 +211,8 @@ if(mysql_query($result_rfr)>=0)
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
-        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+        <a href="https://www.makeasylife.com"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MAKEASYLIFE
             </span></a>
     </div>
     
@@ -268,15 +269,15 @@ echo "<table id='customers'>
 </tr>";
 $query_users="select * from users where username='$username' ";
     require_once '../db.inc.php';
-    $result_users=  mysql_query($query_users);
-    while($row=  mysql_fetch_array($result_users)){
+    $result_users=  mysqli_query($con,$query_users);
+    while($row=  mysqli_fetch_array($result_users)){
         $referral_code=$row['referral_code'];
     }
     $query_referrals="select * from users where refer_code='$referral_code'";
     require_once '../db.inc.php';
-    $result_referrals=  mysql_query($query_referrals);
+    $result_referrals=  mysqli_query($con,$query_referrals);
     if($referral_code!=''){
-    while ($row1 = mysql_fetch_array($result_referrals)) {
+    while ($row1 = mysqli_fetch_array($result_referrals)) {
         $members_referral_code=$row1['referral_code'];
         
     echo "<tr>";
@@ -293,9 +294,9 @@ $query_users="select * from users where username='$username' ";
 
 $query_2level="select * from users where refer_code='$members_referral_code'";
 require_once '../db.inc.php';
-$result_2level=  mysql_query($query_2level);
+$result_2level=  mysqli_query($con,$query_2level);
 if($members_referral_code!=''){
-while ($row2 = mysql_fetch_array($result_2level)) {
+while ($row2 = mysqli_fetch_array($result_2level)) {
         $members_referral_code2=$row2['referral_code'];
         
     echo "<tr>";
@@ -312,8 +313,8 @@ while ($row2 = mysql_fetch_array($result_2level)) {
 if($members_referral_code2!=''){
 $query_3level="select * from users where refer_code='$members_referral_code2'";
 require_once '../db.inc.php';
-$result_3level=  mysql_query($query_3level);
-while ($row3 = mysql_fetch_array($result_3level)) {
+$result_3level=  mysqli_query($con,$query_3level);
+while ($row3 = mysqli_fetch_array($result_3level)) {
         $members_referral_code3=$row3['referral_code'];
         
     echo "<tr>";
@@ -330,8 +331,8 @@ while ($row3 = mysql_fetch_array($result_3level)) {
 if($members_referral_code3!=''){
 $query_4level="select * from users where refer_code='$members_referral_code3'";
 require_once '../db.inc.php';
-$result_4level=  mysql_query($query_4level);
-while ($row4 = mysql_fetch_array($result_4level)) {
+$result_4level=  mysqli_query($con,$query_4level);
+while ($row4 = mysqli_fetch_array($result_4level)) {
         $members_referral_code4=$row4['referral_code'];
         
     echo "<tr>";
@@ -348,8 +349,8 @@ while ($row4 = mysql_fetch_array($result_4level)) {
 if($members_referral_code4!=''){
 $query_5level="select * from users where refer_code='$members_referral_code4'";
 require_once '../db.inc.php';
-$result_5level=  mysql_query($query_5level);
-while ($row5 = mysql_fetch_array($result_5level)) {
+$result_5level=  mysqli_query($con,$query_5level);
+while ($row5 = mysqli_fetch_array($result_5level)) {
         $members_referral_code5=$row5['referral_code'];
         
     echo "<tr>";
@@ -366,8 +367,8 @@ while ($row5 = mysql_fetch_array($result_5level)) {
 if($members_referral_code5!=''){
 $query_6level="select * from users where refer_code='$members_referral_code5'";
 require_once '../db.inc.php';
-$result_6level=  mysql_query($query_6level);
-while ($row6 = mysql_fetch_array($result_6level)) {
+$result_6level=  mysqli_query($con,$query_6level);
+while ($row6 = mysqli_fetch_array($result_6level)) {
         $members_referral_code6=$row6['referral_code'];
         
     echo "<tr>";
@@ -384,8 +385,8 @@ while ($row6 = mysql_fetch_array($result_6level)) {
 if($members_referral_code6!=''){
 $query_7level="select * from users where refer_code='$members_referral_code6'";
 require_once '../db.inc.php';
-$result_7level=  mysql_query($query_7level);
-while ($row7 = mysql_fetch_array($result_7level)) {
+$result_7level=  mysqli_query($con,$query_7level);
+while ($row7 = mysqli_fetch_array($result_7level)) {
         $members_referral_code7=$row7['referral_code'];
         
     echo "<tr>";
@@ -402,8 +403,8 @@ while ($row7 = mysql_fetch_array($result_7level)) {
 if($members_referral_code7!=''){
 $query_8level="select * from users where refer_code='$members_referral_code7'";
 require_once '../db.inc.php';
-$result_8level=  mysql_query($query_8level);
-while ($row8 = mysql_fetch_array($result_8level)) {
+$result_8level=  mysqli_query($con,$query_8level);
+while ($row8 = mysqli_fetch_array($result_8level)) {
         $members_referral_code8=$row8['referral_code'];
         
     echo "<tr>";
@@ -420,8 +421,8 @@ while ($row8 = mysql_fetch_array($result_8level)) {
 if($members_referral_code8!=''){
 $query_9level="select * from users where refer_code='$members_referral_code8'";
 require_once '../db.inc.php';
-$result_9level=  mysql_query($query_9level);
-while ($row9 = mysql_fetch_array($result_9level)) {
+$result_9level=  mysqli_query($con,$query_9level);
+while ($row9 = mysqli_fetch_array($result_9level)) {
         $members_referral_code9=$row9['referral_code'];
         
     echo "<tr>";
@@ -438,8 +439,8 @@ while ($row9 = mysql_fetch_array($result_9level)) {
 if($members_referral_code9!=''){
 $query_10level="select * from users where refer_code='$members_referral_code9'";
 require_once '../db.inc.php';
-$result_10level=  mysql_query($query_10level);
-while ($row10 = mysql_fetch_array($result_10level)) {
+$result_10level=  mysqli_query($con,$query_10level);
+while ($row10 = mysqli_fetch_array($result_10level)) {
         $members_referral_code10=$row10['referral_code'];
         
     echo "<tr>";

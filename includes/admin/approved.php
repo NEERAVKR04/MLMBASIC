@@ -1,20 +1,20 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
           $referral_no=$row["referral_count"];
        }
-   }
+   
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,7 @@ if(mysql_query($result_rfr)>=0)
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MuslimIn</title>
+<title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -173,7 +173,7 @@ if(mysql_query($result_rfr)>=0)
   
   
   
-  <a href="#" class="active-red">LOGOUT</a>
+  <a href="logout.php" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->
@@ -221,8 +221,8 @@ echo "<table id='customers'>
 </tr>";
     $query_users="select * from users";
     require_once '../db.inc.php';
-    $result_users=  mysql_query($query_users);
-    while($row=  mysql_fetch_array($result_users))
+    $result_users=  mysqli_query($con,$query_users);
+    while($row=  mysqli_fetch_array($result_users))
 {
         $payment_approval=$row['payment_approval'];
         if($payment_approval=='approved'){

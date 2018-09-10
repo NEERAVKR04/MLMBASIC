@@ -1,14 +1,15 @@
 <?php
+include './includes/db.inc.php';
 $status_check=0;
 if(isset($_POST['submit'])){
     $email=$_POST['email'];
     $password=md5($_POST['password']);
     $query_st="select * from users where email='$email' and password='$password'";
     require_once './includes/db.inc.php';
-    $result_1=  mysql_query($query_st);
-   if(mysql_num_rows($result_1)==1)
+    $result_1=  mysqli_query($con,$query_st);
+   if(mysqli_num_rows($result_1)==1)
    {
-       $rows=  mysql_fetch_assoc($result_1);
+       $rows=  mysqli_fetch_assoc($result_1);
        if($rows['verified']==Y)
        {
            session_start();
@@ -54,34 +55,66 @@ if(isset($_POST['submit'])){
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body style="background-color: #798F9D">
-      <hr style="height:6px;background-color: #ED2F63"/>  
+      <hr style="height:6px;width: 100%;background-color: #ED2F63"/>  
           
                <div style="display: box;line-height: 1.42857143;text-align: center;margin-bottom: 20px;font-size:13px;color:white;font-family: 'Open Sans','Helvetica Neue','Helvetica','Arial','sans-serif'">
-                   <h1 style="margin-top: 5%;font-weight: 200;font-size: 36px;">MLMSoftware.one Demo</h1><br><br>
+                   <h1 style="margin-top: 5%;font-weight: 200;font-size: 36px;">MAKEASYLIFE.COM</h1><br><br>
                                 <h3 style="font-size: 24px;font-weight:200;margin-bottom: 10px;">Site Login</h3>
 <!--                <small style="font-size: 85%;font-weight: 200;">LOGIN</small>-->
             </div>
-        <div id="content" class="login-form">
+      <div id="content" class="registration">
             <h2 class="heading-primary">
                 Login
             </h2>
-            <form action="loginuser.php" method="POST">
-                <div class="login_details">
-                    <div class="input_label">Email:</div>
-                    <input type="text" name="email" class="input_field" value="<?php echo "$email"?>" />
-
-                    <div class="input_label">Password:</div>
-                    <input type="password" name="password" class="input_field" value="" />
-
-                    <div class="btn_action">
-                        <input type="submit" name="submit" value="Login" class="btn_special" style="background-color: steelblue;" />
-                        <a class="btn_special" href="register.php" style="background-color: springgreen;">Signup</a>
-                        <a class="btn_special" href="index.php" style="background-color: #eb2f64;">Home</a>   
-                    </div>
+      <form action="loginuser.php" method="POST">
+                <table border="0" cellpadding="10">
+                <tbody>
+                    <tr>
+                        <td class="input_label input_label--registration">Email:</td>
+                        <td><input type="text" name="email" class="input_field input_field--registration" style="margin-left: 0.2rem;" value="<?php echo "$email"?>" />
+                        
+                        </td>
+                    </tr>
                     
+                    <tr>
+                        <td class="input_label input_label--registration">Password:</td>
+                        <td><input type="password" name="password" class="input_field input_field--registration" style="margin-left: 0.2rem;" value="" />
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center">
+                            <input type="submit" name="submit" value="Login"  class="btn" style="margin: 2rem 8rem;"/>
                             
-                </div>
+
+                        </td>
+                            <!-- <a class="btn" style="margin: 2rem 8rem;">Home</a></td>                             -->
+                        
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
+                
+          &nbsp;&nbsp;<a href="register.php" class="link">Or, Register here</a>&nbsp;&nbsp;&nbsp;&nbsp;
+           <br />
+           <a href="index.php" class="link">Home</a>
+           <?php if($status_check==2){ ?>
+            <h2 style="color: red">Verify Your Account First.</h2>
+            <h3>Click the verification link you received on Your mail!!</h3>
+            <?php } ?>
+            <?php if($status_check==3){ ?>
+            <h2 style="color: red">Email Or, Password not match!!</h2>
+            
+            <?php } ?>
             </form>
+    </div>
+      
+<!--        <div id="content" class="login-form">
+            <h2 class="heading-primary">
+                Login
+            </h2>
+            
             <?php if($status_check==2){ ?>
             <h2 style="color: red">Verify Your Account First.</h2>
             <h3>Click the verification link you received on Your mail!!</h3>
@@ -91,35 +124,6 @@ if(isset($_POST['submit'])){
             
             <?php } ?>
             
-        </div>
-    <div style="width: 100%;
-	overflow: hidden;
-	margin-left: 0px;
-        min-height: 370px;
-        background-color: #F7F6F6;
-        margin-top: 30rem;">
-        <br/><br/>
-<h3 style="color: #2980f3;
-    font-family: sans-serif;
-    font-size: 24.5px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
-    <h2 style="color: #5a5a5a;
-    font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
-    
-    text-align: center">why <b>join us?</b></h2>
-    </div>
-<div id="footer">
-   <?php require_once './includes/guest/footer.php'; ?>
-</div>
-
-    
-    </body>
+        </div>-->
+        </body>
 </html>

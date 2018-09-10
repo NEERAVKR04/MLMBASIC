@@ -1,4 +1,5 @@
 <?php
+include '../db.inc.php';
 require_once './secure.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
@@ -6,9 +7,9 @@ $email=$_SESSION['email'];
 $mobile=$_SESSION['mobile'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
+$referral_code_check=  mysqli_query($con,$query_check_code);
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -25,9 +26,9 @@ $referral_code_check=  mysql_query($query_check_code);
        }
        $query_det="select * from paymentwithdraw where email='$email'";
 require_once '../db.inc.php';
-$result=  mysql_query($query_det);
+$result=  mysqli_query($con,$query_det);
      
-       while ($row1 = mysql_fetch_assoc($result)) {
+       while ($row1 = mysqli_fetch_assoc($result)) {
          $bank_name=$row1['bank_name'];
          $bank_type=$row1['bank_type'];
          $acno=$row1['account_no'];
@@ -71,7 +72,7 @@ if(isset($_POST['submit']))
     if(count($errors)==0){
     $query_bank="insert into paymentwithdraw values('$email','$first_name','$last_name','$bank_name','$ifsc','$acno','$upi','$paytm','$paypal','','','','$bank_type')";
     require_once '../db.inc.php';
-    mysql_query($query_bank);
+    mysqli_query($con,$query_bank);
     }
 
 }
@@ -425,16 +426,31 @@ if(isset($_POST['submit']))
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
+    text-align: center">why users choose us?</h3>
     <h2 style="color: #5a5a5a;
     font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
+    font-size: 18px;
     
-    text-align: center">why <b>join us?</b></h2>
+    font-weight: 400;
+    margin-top: 11px;
+    
+    text-align: center">Be lakhpati or crore pati by just opting our helping plan & refer your friends!!</h2>
+        <ul>
+            <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
+            <li style="margin-left: 3rem;"><a href="opportunities.php" style="font-size: 14px;">Business opportunities</a></li>
+
+            <li style="margin-left: 3rem;"><a href="terms_conditions.php" style="font-size: 14px;">Terms & conditions</a></li>
+            <li style="margin-left: 3rem;"><a href="register.php" style="font-size: 14px;">Register</a></li>
+
+            <li style="margin-left: 3rem;"><a href="contact.php" style="font-size: 14px;">Contact Us</a></li>
+
+            <li style="margin-left: 3rem;"><a href="howtowork.php" style="font-size: 14px;">How to work?</a></li>
+
+            <li style="margin-left: 3rem;"><a href="loginuser.php" style="font-size: 14px;">Login</a></li>
+
+        </ul>
     </div>
+
 
 </body>
 </html>

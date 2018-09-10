@@ -1,11 +1,12 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
+$referral_code_check=  mysqli_query($con,$query_check_code);
+if(mysqli_query($con,$result_rfr)>=0)
    {
      
        while ($row = mysql_fetch_assoc($referral_code_check)) {
@@ -46,8 +47,8 @@ if(isset($_POST['withdrawal_request'])){
     }
     $query_credit="select * from users where email='$email'";
     require_once '../db.inc.php';
-    $result_credit=  mysql_query($query_credit);
-    while ($rowcredit = mysql_fetch_array($result_credit)) {
+    $result_credit=  mysqli_query($con,$query_credit);
+    while ($rowcredit = mysqli_fetch_array($result_credit)) {
         $credit_balance=$rowcredit['credit'];
         
     }
@@ -57,8 +58,8 @@ if(isset($_POST['withdrawal_request'])){
 
     $query_check_details="select * from paymentwithdraw where email='$email'";
     require_once '../db.inc.php';
-    $result_det=  mysql_query($query_check_details);
-    while ($row1 = mysql_fetch_array($result_det)) {
+    $result_det=  mysqli_query($con,$query_check_details);
+    while ($row1 = mysqli_fetch_array($result_det)) {
         $upi_fetch=$row1['upi'];
         $paytm_fetch=$row1['paytm'];
         $paypal_fetch=$row1['paypal'];
@@ -81,8 +82,8 @@ if(isset($_POST['withdrawal_request'])){
     if(count($errors)==0){
         $query_st="select * from paymentwithdraw where email='$email'";
         require_once '../db.inc.php';
-    $result=  mysql_query($query_st);
-   if(mysql_num_rows($result)!=1){
+    $result=  mysqli_query($con,$query_st);
+   if(mysqli_num_rows($result)!=1){
        $errors['message']="First, complete bank details then request for withdraw!!";
    }
    
@@ -91,7 +92,7 @@ if(isset($_POST['withdrawal_request'])){
        if($request!='pending'){
        $query_update="update paymentwithdraw set amount='$amount',request='pending',method='$method' where email='$email'";
        require_once '../db.inc.php';
-       mysql_query($query_update);
+       mysqli_query($con,$query_update);
        $success=1;
        }
        
@@ -287,8 +288,8 @@ if(isset($_POST['withdrawal_request'])){
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 1.35rem;font-weight: bolder;color:black;">
             LOGOUT
             </span></a>
-        <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+        <a href="https://www.makeasylife.com"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
+            MAKEASYLIFE
             </span></a>
     </div>
     

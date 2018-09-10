@@ -1,22 +1,22 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $useremail=$_SESSION['email'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
           $referral_no=$row["referral_count"];
           $package=$row['package'];
        }
-   }
+   
 ?>
 <?php
 //$status=0;
@@ -73,8 +73,8 @@ if(mysql_query($result_rfr)>=0)
 <?php
 $query_user="select * from users where email='$useremail'";
 require_once '../db.inc.php';
-$result_user=  mysql_query($query_user);
-while ($row_user = mysql_fetch_array($result_user)) {
+$result_user=  mysqli_query($con,$query_user);
+while ($row_user = mysqli_fetch_array($result_user)) {
     $payment_approval=$row_user['payment_approval'];
     $payment_date=$row_user['date'];
     $tid=$row_user['tid'];
@@ -161,7 +161,7 @@ if($tid==''){
         
     $query_payment="update users set image_name='$image_name',tid='$tid',payment_approval='pending',payment_method='$method',date='$date' where email='$useremail'";
     require_once '../db.inc.php';
-    mysql_query($query_payment);
+    mysqli_query($con,$query_payment);
     if(empty($errors)==true){
         move_uploaded_file($file_tmp, "payments/".$image_name);
         
@@ -180,7 +180,8 @@ if($tid==''){
         <meta charset="UTF-8">
 <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Payment/Upgrade Interface</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Payment/Upgrade Interface</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -363,7 +364,7 @@ if($tid==''){
             LOGOUT
             </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+            MAKEASYLIFE
             </span></a>
     </div>
     

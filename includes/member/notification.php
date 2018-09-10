@@ -1,15 +1,16 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $email=$_SESSION['email'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
+$referral_code_check=  mysqli_query($con,$query_check_code);
+if(mysqli_query($con,$result_rfr)>=0)
    {
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -28,7 +29,7 @@ if(mysql_query($result_rfr)>=0)
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MuslimIn</title>
+<title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -213,7 +214,7 @@ if(mysql_query($result_rfr)>=0)
             LOGOUT
             </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+            MAKEASYLIFE
             </span></a>
     </div>
     
@@ -289,9 +290,9 @@ echo "<tr>"."<th style='background:#eee'>"."<input type='submit' name='announcem
                 if(isset($_POST['personal'])){
                 $query_inf="select * from information where email='$email' ORDER BY date DESC LIMIT 0,3";
                 require_once '../db.inc.php';
-                $result_inf=  mysql_query($query_inf);
+                $result_inf=  mysqli_query($con,$query_inf);
                 
-                while ($row1 = mysql_fetch_array($result_inf)) {
+                while ($row1 = mysqli_fetch_array($result_inf)) {
                     $message=$row1['message'];
                     
                     echo "<tr>"."<td>"."<label style='color:blue;'>".$message."</label>"."</td>"."</tr>";
@@ -302,10 +303,10 @@ echo "<tr>"."<th style='background:#eee'>"."<input type='submit' name='announcem
                 if(isset($_POST['announcements'])){
                 $query_inf="select * from notifications ORDER BY date DESC LIMIT 0,3";
                 require_once '../db.inc.php';
-                $result_inf=  mysql_query($query_inf);
+                $result_inf=  mysqli_query($con,$query_inf);
                 
                 
-                while ($row1 = mysql_fetch_array($result_inf)) {
+                while ($row1 = mysqli_fetch_array($result_inf)) {
                     $message=$row1['message'];
                     
                     echo "<tr>"."<td>"."<label style='color:red;'>".$message."</label>"."</td>"."</tr>";
@@ -333,16 +334,32 @@ echo "</table>";
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
+    text-align: center">why users choose us?</h3>
     <h2 style="color: #5a5a5a;
     font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
+    font-size: 18px;
     
-    text-align: center">why <b>join us?</b></h2>
+    font-weight: 400;
+    margin-top: 11px;
+    
+    text-align: center">Be lakhpati or crore pati by just opting our helping plan & refer your friends!!</h2>
+        <ul>
+            <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
+            <li style="margin-left: 3rem;"><a href="opportunities.php" style="font-size: 14px;">Business opportunities</a></li>
+
+            <li style="margin-left: 3rem;"><a href="terms_conditions.php" style="font-size: 14px;">Terms & conditions</a></li>
+            <li style="margin-left: 3rem;"><a href="register.php" style="font-size: 14px;">Register</a></li>
+
+            <li style="margin-left: 3rem;"><a href="contact.php" style="font-size: 14px;">Contact Us</a></li>
+
+            <li style="margin-left: 3rem;"><a href="howtowork.php" style="font-size: 14px;">How to work?</a></li>
+
+            <li style="margin-left: 3rem;"><a href="loginuser.php" style="font-size: 14px;">Login</a></li>
+
+
+        </ul>
     </div>
+
 
 </body>
 </html>

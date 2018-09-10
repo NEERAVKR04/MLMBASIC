@@ -1,1 +1,1 @@
- <p>Copyright &copy; Unisoft Technologies </p>
+ <p>Copyright &copy; makeasylife.com </p>

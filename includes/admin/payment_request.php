@@ -1,20 +1,19 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
-     
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
           $referral_no=$row["referral_count"];
        }
-   }
+   
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,7 +21,7 @@ if(mysql_query($result_rfr)>=0)
         <meta charset="UTF-8">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MuslimIn</title>
+<title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -198,7 +197,7 @@ if(isset($_POST['hide'])){
     $useremail=$_POST['useremail'];
     $query="update paymentwithdraw set request='HIDE' where email='$useremail'";
 require_once '../db.inc.php';
-mysql_query($query);
+mysqli_query($con,$query);
 }
 ?>
 <?php 
@@ -278,15 +277,15 @@ echo "<table id='customers'>
 </tr>";
     $query_users="select * from paymentwithdraw where request='pending'";
     require_once '../db.inc.php';
-    $result_users=  mysql_query($query_users);
-    while($row=  mysql_fetch_array($result_users))
+    $result_users=  mysqli_query($con,$query_users);
+    while($row=  mysqli_fetch_array($result_users))
 {        session_start();
         $useremail=$row['email'];
         
         $query="select * from users where email='$useremail'";
         require_once '../db.inc.php';
-        $result=  mysql_query($query);
-        while ($rowuser = mysql_fetch_array($result)) {
+        $result=  mysqli_query($con,$query);
+        while ($rowuser = mysqli_fetch_array($result)) {
             $credituser=$rowuser['credit'];
         }
 echo "<tr>";
@@ -329,15 +328,15 @@ echo "<table id='customers'>
 </tr>";
     $query_users="select * from paymentwithdraw where request='HIDE'";
     require_once '../db.inc.php';
-    $result_users=  mysql_query($query_users);
-    while($row=  mysql_fetch_array($result_users))
+    $result_users=  mysqli_query($con,$query_users);
+    while($row=  mysqli_fetch_array($result_users))
 {        session_start();
         $useremail=$row['email'];
         
         $query="select * from users where email='$useremail'";
         require_once '../db.inc.php';
-        $result=  mysql_query($query);
-        while ($rowuser = mysql_fetch_array($result)) {
+        $result=  mysqli_query($con,$query);
+        while ($rowuser = mysqli_fetch_array($result)) {
             $credituser=$rowuser['credit'];
         }
 echo "<tr>";
@@ -381,15 +380,15 @@ echo "<table id='customers'>
 </tr>";
     $query_users="select * from paymentwithdraw where request='approved'";
     require_once '../db.inc.php';
-    $result_users=  mysql_query($query_users);
-    while($row=  mysql_fetch_array($result_users))
+    $result_users=  mysqli_query($con,$query_users);
+    while($row=  mysqli_fetch_array($result_users))
 {        session_start();
         $useremail=$row['email'];
         
         $query="select * from users where email='$useremail'";
         require_once '../db.inc.php';
-        $result=  mysql_query($query);
-        while ($rowuser = mysql_fetch_array($result)) {
+        $result=  mysqli_query($con,$query);
+        while ($rowuser = mysqli_fetch_array($result)) {
             $credituser=$rowuser['credit'];
         }
 echo "<tr>";

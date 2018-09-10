@@ -1,20 +1,18 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
-     
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
           $referral_no=$row["referral_count"];
        }
-   }
+   
 ?>
 <?php
 if(isset($_POST['hide'])){
@@ -23,7 +21,7 @@ if(isset($_POST['hide'])){
                 $query_hide="update users set payment_approval='HIDE' where tid='$tid'";
                 require_once '../db.inc.php';
                 if($tid!=''){
-                mysql_query($query_hide);
+                mysqli_query($con,$query_hide);
                 }
                 
                     
@@ -33,7 +31,7 @@ if(isset($_POST['hide'])){
 if(isset($_POST['unhide'])){
                 $query_unhide="update users set payment_approval='' where payment_approval='HIDE'";
                 require_once '../db.inc.php';
-                mysql_query($query_unhide);
+                mysqli_query($con,$query_unhide);
                 
                 
                     
@@ -57,7 +55,7 @@ if(isset($_POST['unhide'])){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>MuslimIn</title>
+<title>MAKEASYLIFE</title>
  
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -235,12 +233,12 @@ if(isset($_POST['unhide'])){
     <?php
     $query_payment_status="select * from users";
     require_once '../db.inc.php';
-    $result=  mysql_query($query_payment_status);
+    $result=  mysqli_query($con,$query_payment_status);
     //Activation Check
                 $query_check_activation="select * from users where tid='$tid'";
                 require_once '../db.inc.php';
-                $res_status=mysql_query($query_check_activation);
-                while ($row_status = mysql_fetch_assoc($res_status)) {
+                $res_status=mysqli_query($con,$query_check_activation);
+                while ($row_status = mysqli_fetch_assoc($res_status)) {
                     $activation_status=$row_status['activation'];
                     $payment_approval=$row_status['payment_approval'];
                     
@@ -253,7 +251,7 @@ if(isset($_POST['unhide'])){
     
             $count=1;
             
-        while ($row_payment = mysql_fetch_assoc($result)) {
+        while ($row_payment = mysqli_fetch_assoc($result)) {
             if($row_payment['payment_approval']!='YES')
             {
                 if(($display<6)){

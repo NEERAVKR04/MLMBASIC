@@ -20,7 +20,7 @@ $mail->IsSMTP();
 
 // As this email.php script lives on the same server as our email server
 // we are setting the HOST to localhost
-$mail->Host = "mail.example.com";  // specify main and backup server
+$mail->Host = "webmail.makeasylife.com";  // specify main and backup server
 
 $mail->SMTPAuth = true;     // turn on SMTP authentication
 
@@ -28,8 +28,8 @@ $mail->SMTPAuth = true;     // turn on SMTP authentication
 // In this case, we setup a test email account with the following credentials:
 // email: send_from_PHPMailer@bradm.inmotiontesting.com
 // pass: password
-$mail->Username = "send_from_PHPMailer@bradm.inmotiontesting.com";  // SMTP username
-$mail->Password = "password"; // SMTP password
+$mail->Username = "noreply@makeasylife.com";  // SMTP username
+$mail->Password = "1~waR{e841ttM"; // SMTP password
 
 // $email is the user's email address the specified
 // on our contact us page. We set this variable at
@@ -38,7 +38,7 @@ $mail->Password = "password"; // SMTP password
 $mail->From = $email;
 
 // below we want to set the email address we will be sending our email to.
-$mail->AddAddress("bradm@inmotiontesting.com", "$name");
+$mail->AddAddress("support@makeasylife.com", "$name");
 
 // set word wrap to 50 characters
 $mail->WordWrap = 50;

@@ -12,6 +12,7 @@
     $errors= array();
     
 if(isset($_GET['submit'])){
+    $con=  mysqli_connect($host, $user, $password, $database, $port, $socket)
     session_start();
     $first_name=$_GET['first_name'];
     $last_name=$_GET['last_name'];
@@ -94,17 +95,18 @@ if(isset($_GET['submit'])){
         {
     $query_st="select * from users where email='$email'";
     require_once './includes/db.inc.php';
-    $result_1=  mysql_query($query_st);
-   if(mysql_num_rows($result_1)==1){
+    $result_1=  mysqli_query($con,$query_st);
+   if(mysqli_num_rows($result_1)==1){
        $errors['email']="Email id already exists";
    }
+   
    $query_rfr="select first_name from users where referral_code='$refer_code'";
    require_once './includes/db.inc.php';
-   $result_rfr=mysql_query($query_rfr);
-   if(mysql_num_rows($result_rfr)>0)
+   $result_rfr=mysqli_query($con,$query_rfr);
+   if(mysqli_num_rows($result_rfr)>0)
    {
      
-       while ($row = mysql_fetch_assoc($result_rfr)) {
+       while ($row = mysqli_fetch_assoc($result_rfr)) {
           $referee_name= $row["first_name"];
        }
      
@@ -113,14 +115,15 @@ if(isset($_GET['submit'])){
    
    $query_count="select referral_count from users where referral_code='$refer_code'";
           require_once './includes/db.inc.php';
-          $result_count=  mysql_query($query_count);
-          if(mysql_num_rows($result_count)>=0)
+          $result_count=  mysqli_query($con,$query_count);
+          if(mysqli_num_rows($result_count)>=0)
           {
-              while ($row_count = mysql_fetch_assoc($result_count)) {
+              while ($row_count = mysqli_fetch_assoc($result_count)) {
+                  
               $referral_count=$row_count["referral_count"];
               $referral_count=$referral_count+1;
               $query_referral_count_update="update users set referral_count='$referral_count' where referral_code='$refer_code'";
-              mysql_query($query_referral_count_update);
+              mysqli_query($con,$query_referral_count_update);
               }
           }
    
@@ -147,7 +150,8 @@ if(isset($_GET['submit'])){
             $joined_date=  date('Y-m-d H:i:s');
             $query= "insert into users values('$username','$email','$first_name','$last_name','$password','$mobile','$package','$refer_code','$referee_name','$referral_code','$verification','Y','N','member','0','0','0','','','','','','','','','','','','$joined_date')";
             require_once './includes/db.inc.php';
-            mysql_query($query);
+            //mysql_query($query);
+            mysqli_query($con,$query);
             $template=2;     
         }   
     }
@@ -158,19 +162,19 @@ if(isset($_GET['submit'])){
     <head>
         <meta charset="UTF-8">
         <title>Registration Form</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
         <link rel="stylesheet" href="css/style.css">
     </head>
     
         <body style="background-color: #798F9D">
-            <hr style="height:6px;background-color: #ED2F63"/> 
+            <hr style="height:6px;width: 100%;background-color: #ED2F63"/> 
           
                <div style="display: box;line-height: 1.42857143;text-align: center;margin-bottom: 20px;font-size:13px;color:white;font-family: 'Open Sans','Helvetica Neue','Helvetica','Arial','sans-serif'">
-                   <h1 style="margin-top: 5%;font-weight: 200;font-size: 36px;">MLMSoftware.one Demo</h1><br><br>
+                   <h1 style="margin-top: 5%;font-weight: 200;font-size: 36px;">MAKEASYLIFE.COM</h1><br><br>
                                 <h3 style="font-size: 24px;font-weight:200;margin-bottom: 10px;">Site Register</h3>
 <!--                <small style="font-size: 85%;font-weight: 200;">LOGIN</small>-->
             </div>
-        
-        
         
         <div id="content" class="registration">
             <?php if($template==1){ ?>
@@ -269,42 +273,15 @@ $headers = 'From: neeravkr04@gmail.com' . "\r\n" .
    'Reply-To: neeravkr04@gmail.com';
 
 mail($to, $subject, $message, $headers);*/
-                mail('myselfcool.neerav@gmail.com','Sample mail','Sample content','From: neeravkr.04@gmail.com');
-
-
+                mail("$email",'MAKEASYLIFE Registration Success!!','You have successfully registered on makeasylife.com. To activate your account login on makeasylife.com & pay Rs 99/- as helping charge!! Wish you happy earning.','From:noreply@makeasylife.com');
                 ?>
             <h2>Congratulations!! Registered Successfully </h2>
-            <h3>An email has been sent on <?php echo "$email" ?> to verify your email id!!<a href="login.php"><b>&nbsp;Login</b></a></h3>
+            <h3>Login with your <?php echo "$email" ?> and make payment of Rs 99/- to fully activate your account<a href="loginuser.php"><b>&nbsp;Login</b></a></h3>
             <?php } ?>
 
             
         </div>
-    <div style="width: 100%;
-	overflow: hidden;
-	margin-left: 0px;
-        min-height: 420px;
-        background-color: #F7F6F6;">
-        <br/><br/>
-<h3 style="color: #2980f3;
-    font-family: sans-serif;
-    font-size: 24.5px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
-    <h2 style="color: #5a5a5a;
-    font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
     
-    text-align: center">why <b>join us?</b></h2>
-    </div>
-<div id="footer">
-   <?php require_once './includes/guest/footer.php'; ?>
-</div>
 
     </body>
 </html>

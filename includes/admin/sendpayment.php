@@ -1,14 +1,12 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
-     
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -16,7 +14,7 @@ if(mysql_query($result_rfr)>=0)
           $activation_status=$row["activation"];
           $package=$row["package"];
        }
-   }
+   
 ?>
 
 <?php
@@ -36,9 +34,9 @@ if(isset($_POST['update'])){
     }
     $query_st1="select * from users where email='$user_email'";
     require_once '../db.inc.php';
-    $result=  mysql_query($query_st1);
-    if($num_rows=  mysql_num_rows($result)==1){
-    while($row=  mysql_fetch_array($result)){
+    $result=  mysqli_query($con,$query_st1);
+    if($num_rows=  mysqli_num_rows($result)==1){
+    while($row=  mysqli_fetch_array($result)){
         $withdrawal_amount=$row['withdrawal_amount'];
         $credit=$row['credit'];
         
@@ -53,11 +51,11 @@ if(isset($_POST['update'])){
         
         $query_st2="update users set total_withdrawal='$withdrawal_amount',credit='$update_credit' where email='$user_email'";
         require_once '../db.inc.php';
-        $result_1=  mysql_query($query_st2);
+        $result_1=  mysqli_query($con,$query_st2);
         //update payment
         $query="update paymentwithdraw set request='approved' where email='$user_email'";
         require_once '../db.inc.php';
-        $result_1=  mysql_query($query);
+        $result_1=  mysqli_query($con,$query);
         
         //update withdrawal history 
         date_default_timezone_set('Asia/Kolkata');
@@ -81,7 +79,7 @@ if(isset($_POST['update'])){
         move_uploaded_file($file_tmp, "payment_proofs/".$file_name);
         $query_st_his="insert into withdrawal values('$user_email','$amount','$date','$file_name')";
         require_once '../db.inc.php';
-        mysql_query($query_st_his);
+        mysqli_query($con,$query_st_his);
         
         $display=1;
         
@@ -256,7 +254,7 @@ if(isset($_POST['update'])){
   <a href="payment_request.php">Withdrawal Request</a>
   <a href="sendnotification.php">Send Notification</a>
   <a href="sendpayment.php">Payment Updation</a>
-  <a href="#" class="active-red">LOGOUT</a>
+  <a href="logout.php" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->

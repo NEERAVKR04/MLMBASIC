@@ -1,14 +1,13 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
-     
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -18,7 +17,7 @@ if(mysql_query($result_rfr)>=0)
           $email=$row['email'];
        }
        
-   }
+   
 ?>
 
 <?php
@@ -43,7 +42,7 @@ if(isset($_POST['personal'])){
         $date=  date('Y-m-d H:i:s');
         $query_update="insert into information values ('$emailuser','$personalmessage','sent','$date')";
        require_once '../db.inc.php';
-       mysql_query($query_update);
+       mysqli_query($con,$query_update);
        $display=1;
         
     }
@@ -71,7 +70,7 @@ if(isset($_POST['messageall'])){
         $date=  date('Y-m-d H:i:s');
         $query_update="insert into notifications values ('$title','$message','sent','$date')";
        require_once '../db.inc.php';
-       mysql_query($query_update);
+       mysqli_query($con,$query_update);
        $status=1;
        
         
@@ -235,7 +234,7 @@ if(isset($_POST['messageall'])){
   <a href="payment_request.php">Withdrawal Request</a>
   <a href="sendnotification.php">Send Notification</a>
   <a href="sendpayment.php">Payment Updation</a>
-  <a href="#" class="active-red">LOGOUT</a>
+  <a href="logout.php" class="active-red">LOGOUT</a>
   
     <!--<b style="color: #000;margin-left: 25px">Your Referral Code is:&nbsp;</b><b style="color: tomato"><?php echo "<b>".$referral_code."</b>";?></b>
 -->

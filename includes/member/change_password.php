@@ -1,5 +1,6 @@
 <?php
     require_once './secure.inc.php';
+    include '../db.inc.php';
     $success=0;
     $errors = array();
     if(isset($_POST['change_password'])){
@@ -13,8 +14,8 @@
         $new_password=md5($new_password);
         $confirm_password=  md5($confirm_password);
         $query = "select * from users where username='$username' and password='$password'";
-        $result = mysql_query($query);
-        if(mysql_num_rows($result)==1){
+        $result = mysqli_query($con,$query);
+        if(mysqli_num_rows($result)==1){
            
             if($confirm_password!=$new_password){
                 $errors['confirm_password']="Password mismatch";
@@ -22,7 +23,7 @@
             else{
             $query_change="update users set password='$new_password' where email='$email'";
             require_once '../db.inc.php';
-            mysql_query($query_change);
+            mysqli_query($con,$query_change);
             $success=1;
             
             }
@@ -218,7 +219,7 @@
             LOGOUT
             </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+            MAKEASYLIFE
             </span></a>
     </div>
     

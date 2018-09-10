@@ -164,8 +164,7 @@ section h3.section-subheading{
 
 #content2 {
 	width: 100%;
-	overflow: hidden;
-	margin-left: 0px;
+	
         min-height: 420px;
         background-color: #F7F6F6;
 }

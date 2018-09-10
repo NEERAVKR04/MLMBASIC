@@ -1,16 +1,15 @@
 <?php
 require_once './secure.inc.php';
+include '../db.inc.php';
 $first_name=$_SESSION['first_name'];
 $username=$_SESSION['username'];
 $email=$_SESSION['email'];
-
 $query_check_code="select * from users where username='$username'";
 require_once '../db.inc.php';
-$referral_code_check=  mysql_query($query_check_code);
-if(mysql_query($result_rfr)>=0)
-   {
+$referral_code_check=  mysqli_query($con,$query_check_code);
+
      
-       while ($row = mysql_fetch_assoc($referral_code_check)) {
+       while ($row = mysqli_fetch_assoc($referral_code_check)) {
           $referral_code= $row["referral_code"];
           $credit=$row["credit"];
           $withdrawal=$row["total_withdrawal"];
@@ -21,7 +20,7 @@ if(mysql_query($result_rfr)>=0)
        if($activation_status!='Y'){
            header('Location: payment.php');
        }
-   }
+
 ?>
 
 <!DOCTYPE html>
@@ -213,7 +212,7 @@ if(mysql_query($result_rfr)>=0)
             LOGOUT
             </span></a>
         <a href="logout.php"> <span style="float: right;margin-top:1.35rem;margin-right: 40%;font-weight: bolder;color:black;">
-            MLMLOGO
+            MAKEASYLIFE
             </span></a>
     </div>
     
@@ -325,10 +324,10 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
                 <?php
                 $query_nof="select * from notifications ORDER BY date DESC LIMIT 0,3";
                 require_once '../db.inc.php';
-                $result_nof=  mysql_query($query_nof);
+                $result_nof=  mysqli_query($con,$query_nof);
                 $count_nofno=0;
                 if($count_nofno<=3){
-                while ($rownof = mysql_fetch_array($result_nof)) {
+                while ($rownof = mysqli_fetch_array($result_nof)) {
                     $title=$rownof['title'];
                     $message=$rownof['message'];
                     $message= substr($message,0,70);
@@ -370,10 +369,10 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
                 <?php
                 $query_inf="select * from information where email='$email' ORDER BY date DESC LIMIT 0,3";
                 require_once '../db.inc.php';
-                $result_inf=  mysql_query($query_inf);
+                $result_inf=  mysqli_query($con,$query_inf);
                 $count_infno=0;
                 if($count_infno<=3){
-                while ($row1 = mysql_fetch_array($result_inf)) {
+                while ($row1 = mysqli_fetch_array($result_inf)) {
                     $message=$row1['message'];
                     $message= substr($message,0,40);
                     echo "<tr>"."<td>".$message."  "."<a href='notification.php' style='color:#000;font-size:11px;'>"."read more..."."</a>"."</td>"."</tr>";
@@ -381,11 +380,6 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
                 }
                 }
                 ?>
-                
-                
-
-                
-            
         </table>
         </form>
 </div>
@@ -396,21 +390,16 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
                 <?php
                 $query_ref="select * from users where refer_code='$referral_code' ORDER BY joined_date DESC LIMIT 0,3";
                 require_once '../db.inc.php';
-                $result_ref=  mysql_query($query_ref);
+                $result_ref=  mysqli_query($con,$query_ref);
                 $count_refno=0;
                 if($count_refno<=3){
-                while ($row1 = mysql_fetch_array($result_ref)) {
+                while ($row1 = mysqli_fetch_array($result_ref)) {
                     echo "<tr>"."<td>"."Your friend ".$row1['first_name']." joined with your refer code!!"."</td>"."</tr>";
                 
                     $count_refno++;
                 }
                 }
-                ?>
-                
-                
-
-                
-            
+                ?>  
         </table>
         </form>
 </div>
@@ -421,21 +410,16 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
                 <?php
                 $query_his="select * from withdrawal where email='$email' ORDER BY date DESC LIMIT 0,3";
                 require_once '../db.inc.php';
-                $result_his=  mysql_query($query_his);
+                $result_his=  mysqli_query($con,$query_his);
                 $count_no=0;
                 if($count_no<=3){
-                while ($row1 = mysql_fetch_array($result_his)) {
+                while ($row1 = mysqli_fetch_array($result_his)) {
                     echo "<tr>"."<td>"."Withdrawal of Rs ".$row1['amount']." has been processed"."</td>"."</tr>";
                 
                     $count_no++;
                 }
                 }
                 ?>
-                
-                
-
-                
-            
         </table>
         </form>
 </div>
@@ -456,20 +440,32 @@ $referral_link="localhost/project2/register.php?refer_code=$referral_code&submit
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 3px;
-    text-align: center">earn extra money</h3>
+    text-align: center">why users choose us?</h3>
     <h2 style="color: #5a5a5a;
     font-family: sans-serif;
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-top: 3px;
+    font-size: 18px;
     
-    text-align: center">why <b>join us?</b></h2>
+    font-weight: 400;
+    margin-top: 11px;
+    
+    text-align: center">Be lakhpati or crore pati by just opting our helping plan & refer your friends!!</h2>
+        <ul>
+            <li style="margin-left: 3rem;"><a href="privacy.php" style="font-size: 14px;">Privacy policy</a></li>
+            <li style="margin-left: 3rem;"><a href="opportunities.php" style="font-size: 14px;">Business opportunities</a></li>
+
+            <li style="margin-left: 3rem;"><a href="terms_conditions.php" style="font-size: 14px;">Terms & conditions</a></li>
+            <li style="margin-left: 3rem;"><a href="register.php" style="font-size: 14px;">Register</a></li>
+
+            <li style="margin-left: 3rem;"><a href="contact.php" style="font-size: 14px;">Contact Us</a></li>
+
+            <li style="margin-left: 3rem;"><a href="howtowork.php" style="font-size: 14px;">How to work?</a></li>
+
+            <li style="margin-left: 3rem;"><a href="loginuser.php" style="font-size: 14px;">Login</a></li>
+
+
+        </ul>
     </div>
 
-
-   
-  
 <div id="footer" style="margin-top: 5rem;">
    <?php require_once './footer.php'; ?>
 </div>
